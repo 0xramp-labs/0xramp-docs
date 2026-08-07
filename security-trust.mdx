@@ -1,0 +1,55 @@
+---
+title: "Security and Trust Model of 0xramp"
+sidebarTitle: "Security & Trust"
+description: "Understand what 0xramp sees and does, what is committed on-chain, and what the protocol never accesses — including your keys and Pix credentials."
+---
+
+0xramp is built on a non-custodial architecture: at no point in the order lifecycle does 0xramp or any single party hold both your funds and your private keys simultaneously. Instead, custody is managed through on-chain smart contracts, and each layer of the protocol — 0xramp, P2P.me, and NEAR Intents — has a clearly defined, limited role. Understanding this model helps you know exactly what you are trusting, and what you are not.
+
+## What Happens On-Chain
+
+Every buy or sell order on 0xramp is anchored to the blockchain before you are asked to take any off-chain action (such as making a Pix payment). This is by design:
+
+- **Order parameters are committed on-chain first.** The asset type, amount, and your receiving address are all written to the blockchain before the Pix QR code is displayed to you. This means the destination of your funds is locked and verifiable before any money moves.
+- **Your wallet — not 0xramp — signs the transaction.** Whether you use your own wallet (Rabby, Phantom) or a P2P.me smart account, the on-chain commitment is signed by you or your smart account. 0xramp never holds signing authority over your funds.
+- **USDC escrow on Base is managed by P2P.me smart contracts.** During a buy order, USDC is held in a P2P.me-controlled escrow contract on the Base network until the Pix payment is matched. The release is triggered by the protocol, not by 0xramp.
+- **NEAR Intents handles asset conversion in a decentralized manner.** If your order involves converting USDC into another asset (e.g. ZEC), this conversion is routed through NEAR Intents — a decentralized intent-based execution layer that 0xramp does not control or operate.
+
+## What 0xramp's Backend Does
+
+The 0xramp backend plays a coordination and display role. It does not touch funds. Specifically, it:
+
+- Correlates Pix payment references with on-chain orders to update your order status in the UI
+- Provides real-time order status updates so you can track your trade from quote to settlement
+- Manages your session data (login state, connected wallet address) for the duration of your session
+- Does **not** access your private key, seed phrase, or Pix PIN/password at any point
+- Does **not** hold funds — there is no 0xramp-controlled wallet that assets pass through during an order
+
+## What 0xramp Never Sees
+
+The following information is never transmitted to, stored by, or accessible to 0xramp:
+
+- **Your private key or seed phrase** — these never leave your wallet device or application
+- **Your Pix login credentials or bank PIN** — Pix payments are made entirely within your banking app; 0xramp only receives a payment reference to match against your order
+- **Your full bank account details** — 0xramp does not collect or store banking credentials
+- **The raw personal data submitted during P2P.me ZK-KYC verification** — identity verification is handled by P2P.me using zero-knowledge proofs; only the proof of verification (not the underlying identity data) is used on-chain
+
+## Role of Each Layer
+
+Three distinct layers work together to execute a 0xramp order. Each has a separate, bounded responsibility:
+
+| Layer | Responsibilities |
+|---|---|
+| **P2P.me** | Identity verification (ZK-KYC), on-chain reputation scoring, Pix payment matching, USDC escrow management on Base, fraud prevention |
+| **NEAR Intents** | Decentralized USDC ↔ target asset conversion (e.g. USDC → ZEC). Not operated or controlled by 0xramp. |
+| **0xramp** | Product UX, quote display, session management, order status correlation. No fund custody at any stage. |
+
+This separation means that even if one layer experienced an issue, no single party would have unilateral control over both your funds and your identity.
+
+<Note>
+  Because no single party controls both your funds and your keys, there is no single point of failure for custody. Your assets are protected by the on-chain logic of the smart contracts involved — not by trusting any one company.
+</Note>
+
+<Tip>
+  Always verify you are on **https://www.0xramp.app** before connecting your wallet. Bookmark the URL and never click wallet-connect prompts from links in emails, social media, or messaging apps. Phishing sites may mimic the 0xramp interface.
+</Tip>

@@ -1,0 +1,53 @@
+---
+title: "How 0xramp Works: Buy and Sell Crypto with Pix"
+sidebarTitle: "How It Works"
+description: "Learn how 0xramp's buy (fiat to crypto) and sell (crypto to fiat) flows work across P2P.me, Base USDC, and NEAR Intents — in plain language."
+---
+
+0xramp supports two flows — buying crypto with BRL and selling crypto to receive BRL — both settled via Pix. Under the hood, every transaction moves through three layers: **P2P.me** handles the Pix payment and USDC escrow on Base, **NEAR Intents** converts USDC to or from your chosen asset, and **0xramp** ties it all together with a clear interface, live quotes, and order status tracking.
+
+---
+
+## Buying Crypto (Fiat → Asset)
+
+<Steps>
+  <Step title="Enter amount and address">
+    Choose the asset you want to receive (for example, ZEC or SOL), enter your receiving wallet address, and review the quoted rate. The quote reflects the current USDC/asset price via NEAR Intents and the BRL/USDC rate from P2P.me.
+  </Step>
+  <Step title="Pay via Pix">
+    A Pix QR code is displayed in the app. Scan or copy it and complete the payment from your bank app for the exact amount shown. The Pix key belongs to P2P.me — 0xramp never handles your payment credentials.
+  </Step>
+  <Step title="Receive your crypto">
+    P2P.me detects and matches your Pix payment, then locks the equivalent USDC in escrow on Base. NEAR Intents converts that USDC into your chosen asset and delivers it to your wallet. The entire process typically takes **around 6 minutes**.
+  </Step>
+</Steps>
+
+---
+
+## Selling Crypto (Asset → Fiat)
+
+<Steps>
+  <Step title="Enter sell amount and Pix key">
+    Select the asset you want to sell and the amount, then enter your Pix key — this is the key where your BRL payout will be sent. Accepted Pix key formats are CPF, phone number, email address, or a random key.
+  </Step>
+  <Step title="Send your crypto">
+    The app shows you a deposit address and the exact amount to send. Initiate the transfer from your wallet. Keep in mind that **blockchain transactions are irreversible** — double-check the address and amount before confirming.
+  </Step>
+  <Step title="Receive BRL via Pix">
+    Once your transaction is confirmed on-chain, P2P.me verifies the deposit and releases the corresponding BRL payment to your Pix key. You'll receive the funds directly in your bank account.
+  </Step>
+</Steps>
+
+---
+
+## The Three Layers
+
+Every 0xramp transaction runs across three distinct components:
+
+- **P2P.me** — Owns identity, KYC, and trading limits. Matches Pix payments and manages USDC escrow on Base. All on-chain escrow logic lives here.
+- **NEAR Intents** — Handles the on-chain swap between Base USDC and your target asset (or vice versa when selling). Supports a broad catalog of assets beyond just USDC.
+- **0xramp** — The product layer. Provides the interface, displays quotes, correlates your session with the on-chain order, and surfaces real-time status updates. 0xramp does not touch your funds at any point.
+
+<Note>
+  All orders are placed on-chain by your wallet or P2P.me smart account. 0xramp has no custody of your funds at any point.
+</Note>

@@ -1,0 +1,92 @@
+{
+  "projectType": "saas",
+  "projectName": "0xramp",
+  "projectDescription": "A non-custodial fiat ↔ crypto on/off-ramp that lets users buy and sell ZEC, SOL, ETH, USDC, and other assets against local payment rails (BRL via Pix) using P2P.me identity/escrow and NEAR Intents for asset conversion.",
+  "theme": "almond",
+  "primaryColor": "#e4ca81",
+  "lightColor": "#7c7c7c",
+  "darkColor": "#070706",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "User Guide",
+        "groups": [
+          {
+            "group": "Introduction",
+            "pages": [
+              "introduction",
+              "how-it-works"
+            ]
+          },
+          {
+            "group": "Using 0xramp",
+            "pages": [
+              "buying",
+              "selling",
+              "accounts-identity",
+              "supported-assets"
+            ]
+          },
+          {
+            "group": "Limits & Fees",
+            "pages": [
+              "limits-verification",
+              "fees-quotes"
+            ]
+          },
+          {
+            "group": "Safety & Support",
+            "pages": [
+              "refunds-failed-trades",
+              "security-trust",
+              "faq"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Developers",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "developers/architecture",
+              "developers/configuration",
+              "developers/contributing"
+            ]
+          },
+          {
+            "group": "Releases",
+            "pages": [
+              "developers/changelog"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Non-custodial: 0xramp never holds user funds, keys, or Pix credentials",
+    "Buy crypto (ZEC, SOL, ETH, USDC, NEAR Intents assets) with BRL via Pix",
+    "Sell crypto and receive BRL via Pix",
+    "P2P.me-powered identity, reputation, limits, KYC, and USDC escrow on Base",
+    "NEAR Intents handles USDC → target asset conversion",
+    "Login via P2P.me smart account (gas-sponsored) or external wallets (Rabby, Phantom)",
+    "On-chain order placement — no 0xramp custody of funds",
+    "Transparent fee breakdown shown before confirmation",
+    "~6-minute estimated settlement for buy orders",
+    "Per-order and daily limits driven by P2P.me on-chain reputation"
+  ],
+  "publicApiSurface": [
+    "Buy flow: fiat amount → quote → Pix QR → asset delivery to wallet address",
+    "Sell flow: asset send → Pix payment received",
+    "P2P.me login (smart account) — gas-sponsored, no seed phrase required",
+    "External wallet connect (Rabby, Phantom)",
+    "Quote breakdown: fixed fee, asset conversion fee, exchange rate spread",
+    "Refund address for failed or expired orders",
+    "In-app Limits page (P2P.me reputation-gated)",
+    "Supported chains: Zcash, Solana, Ethereum, Base",
+    "Supported assets: ZEC, SOL, ETH, USDC, NEAR Intents catalog",
+    "Supported fiat corridor: BRL via Pix (Brazil)"
+  ]
+}

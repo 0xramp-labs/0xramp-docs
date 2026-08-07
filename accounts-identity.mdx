@@ -1,0 +1,76 @@
+---
+title: "Accounts and Identity on 0xramp"
+sidebarTitle: "Accounts & Identity"
+description: "Understand the two login options on 0xramp — P2P.me smart account and external wallets — and how identity, reputation, and limits work."
+---
+
+0xramp supports two ways to connect: a **P2P.me smart account** or an **external self-custody wallet**. Either way, your identity, reputation, and trading limits are managed by P2P.me's on-chain system — not by 0xramp. This means 0xramp never stores your credentials, holds your funds, or runs its own KYC process. Your account and history belong to you, tied to your wallet address on-chain.
+
+## P2P.me Account (Recommended for New Users)
+
+A P2P.me account is a **gas-sponsored smart contract wallet** — a non-custodial wallet where your identity lives on-chain and transaction fees are covered for you. It's the easiest way to get started if you don't already have a crypto wallet.
+
+**How to log in:**
+
+1. Go to [0xramp](https://www.0xramp.app) and click **Login**.
+2. Select **Access your P2P.me account**.
+3. Follow the P2P.me prompts to create or sign in to your account.
+
+**Benefits:**
+
+- **No seed phrase to manage** — your account is secured through P2P.me's smart contract system
+- **Gas fees are sponsored** — you don't need to hold ETH or SOL just to transact
+- **On-chain identity and reputation** — your order history and verification status build up against your wallet address, portable across any app that uses P2P.me
+
+<Note>
+  P2P.me manages identity verification and KYC. 0xramp never stores your personal credentials or verification documents.
+</Note>
+
+## External Wallets
+
+If you already have a self-custody wallet, you can connect it directly to 0xramp. Currently supported external wallets:
+
+| Wallet | Supported Chains |
+|--------|-----------------|
+| **Rabby** | EVM chains (Ethereum, Base, etc.) |
+| **Phantom** | Solana |
+
+**When to use an external wallet:**
+
+- You already hold assets in a self-custody wallet you trust
+- You prefer to manage your own keys and security
+
+**How to connect:**
+
+1. Click **Login** on [0xramp](https://www.0xramp.app).
+2. Select your wallet (Rabby or Phantom).
+3. Approve the connection request in your wallet extension.
+
+<Note>
+  Limits and reputation are tied to your **wallet address** through P2P.me's on-chain system — the same rules apply whether you're using a P2P.me account or an external wallet.
+</Note>
+
+## What 0xramp Never Does
+
+0xramp is a non-custodial interface. Here's what that means in practice:
+
+- **Never stores your private keys or seed phrases** — your wallet stays fully in your control
+- **Never accesses your Pix account or Pix credentials** — you pay Pix directly from your own bank app; 0xramp only shows you the QR code or key
+- **Never holds your funds between order placement and settlement** — funds flow through P2P.me's USDC escrow on Base and NEAR Intents; 0xramp is not a counterparty
+- **Never runs KYC independently** — all identity verification is handled by P2P.me; 0xramp has no access to that data
+
+## Reputation and Limits
+
+Your trading limits — how much you can buy or sell per order and over time — are determined by your **P2P.me on-chain reputation**, not by 0xramp. This reputation is built from your wallet's verified identity and order history on the P2P.me network.
+
+What this means in practice:
+
+- **New accounts** may start with low or zero buy limits until verification steps are completed or order history is established.
+- **Limits increase** as your on-chain reputation grows through verification and successful trades.
+- **0xramp cannot increase your limits** — contact P2P.me directly if you need a limit review.
+
+For more details on verification and how to increase your limits, see [Limits & Verification](/limits-verification).
+
+<Note>
+  Your identity and reputation are portable — they follow your wallet address across any app that integrates with P2P.me, not just 0xramp.
+</Note>

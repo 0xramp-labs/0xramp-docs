@@ -1,0 +1,51 @@
+---
+title: "Supported Assets and Address Formats on 0xramp"
+sidebarTitle: "Supported Assets"
+description: "Which cryptocurrencies you can buy and sell on 0xramp, the chains they live on, and how to provide the right address for each asset."
+---
+
+0xramp lets you move between Brazilian reais (BRL) and a growing set of cryptocurrencies — all without giving up custody of your funds. Before placing an order, make sure you're sending to the right address on the right network. Providing an incorrect address or mismatching networks can result in permanent, unrecoverable loss of funds.
+
+## Supported Assets
+
+| Asset | Symbol | Network | Notes |
+|---|---|---|---|
+| Zcash | **ZEC** | Zcash | Transparent addresses (t-addr) only — see below |
+| Solana | **SOL** | Solana | — |
+| Ether | **ETH** | Ethereum | — |
+| USD Coin | **USDC** | Base | ERC-20 on Base network |
+| NEAR Intents catalog | **Various** | NEAR Protocol | Additional assets available via NEAR Intents — check the app for the current list |
+
+<Note>
+  The asset list may expand over time. Always check the 0xramp app at [0xramp.app](https://www.0xramp.app) for the latest supported assets.
+</Note>
+
+## Zcash Addresses
+
+Zcash has two distinct address types, and it's important to know the difference before placing an order:
+
+- **Transparent addresses (t-addr)** start with the letter `t`. These are publicly visible on the Zcash blockchain, similar to Bitcoin addresses. **0xramp currently delivers ZEC to transparent addresses only.**
+- **Shielded addresses (z-addr)** start with `z` (Sapling) or `u` (Unified). These use zero-knowledge proofs to keep transaction details private. **Shielded addresses are not currently supported for delivery on 0xramp.**
+
+If you provide a shielded address when buying ZEC, your order cannot be completed. Use a transparent `t-addr` from your wallet when entering your destination address.
+
+<Warning>
+  Do not provide a Zcash shielded address (starting with `z` or `u`) as your delivery address. Only transparent addresses starting with `t` are supported for ZEC delivery at this time.
+</Warning>
+
+## Address Safety Rules
+
+- **Copy-paste your address — never type it manually.** A single incorrect character sends funds to an unreachable address permanently.
+- **Check for required memos or destination tags.** Some assets and chains (such as certain ERC-20 tokens or exchange deposit addresses) require a memo, tag, or additional identifier alongside the address. Check your wallet or exchange's instructions before providing an address to 0xramp.
+- **Sending to the wrong address is permanent.** Blockchain transactions cannot be reversed, recalled, or refunded. There is no recovery mechanism — not by 0xramp, not by P2P.me, not by anyone.
+- **Verify that the asset and network match your wallet.** For example, USDC on 0xramp settles on the Base network. Sending Base USDC to an Ethereum wallet address that doesn't support Base will result in loss of funds.
+
+<Warning>
+  Blockchain transactions are irreversible. Verify your address and chain before confirming any order.
+</Warning>
+
+## Fiat Corridor
+
+0xramp currently supports **BRL (Brazilian reais)** via **Pix** as the fiat payment method. Pix is Brazil's instant payment network, available 24/7.
+
+Additional fiat corridors — covering other currencies and payment methods — may be added as the protocol expands. Check the app or follow [0xramp](https://www.0xramp.app) for updates on new corridors.

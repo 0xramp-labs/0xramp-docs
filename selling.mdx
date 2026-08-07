@@ -1,0 +1,68 @@
+---
+title: "Sell Crypto and Receive BRL via Pix"
+sidebarTitle: "Selling"
+description: "How to sell ZEC, SOL, ETH, or USDC on 0xramp and receive Brazilian reais (BRL) directly to your Pix key."
+---
+
+The 0xramp sell flow lets you convert crypto into Brazilian reais and receive the funds directly to your Pix key — no bank account linking required on our end. You send the crypto to a deposit address shown in the app, and once it's confirmed on-chain, P2P.me releases the BRL payment straight to you. Before you start, make sure your wallet holds the asset you want to sell and that you have a valid Brazilian Pix key ready.
+
+## Requirements
+
+- A connected wallet (P2P.me smart account, Rabby, or Phantom) **holding the asset you want to sell**
+- A valid **Brazilian Pix key** — CPF, phone number, email address, or random key
+
+## Steps
+
+<Steps>
+  <Step title="Select asset and amount">
+    Open [0xramp](https://www.0xramp.app) and switch to the **Sell** tab. Choose the asset you'd like to sell — ZEC, SOL, ETH, USDC, or another supported asset — and enter the amount you want to convert to BRL.
+
+    The minimum order is **R$ 30** equivalent. Your maximum sell amount is set by your P2P.me on-chain reputation and verification level.
+  </Step>
+
+  <Step title="Enter your Pix key">
+    Enter the Pix key where you want to receive your BRL. Supported Pix key formats:
+
+    - **CPF** (Brazilian tax ID)
+    - **Phone number**
+    - **Email address**
+    - **Random key** (a UUID assigned by your bank)
+
+    Double-check that the Pix key is correct — 0xramp does not store your Pix credentials and cannot redirect a payment once it has been sent.
+  </Step>
+
+  <Step title="Review the quote">
+    Before sending any crypto, review the full breakdown:
+
+    - **BRL amount you'll receive** — after fees and the current exchange rate
+    - **Fee breakdown** — fixed fee, conversion costs, and rate spread
+
+    Confirm the quote when you're ready to proceed. This places the order on-chain.
+  </Step>
+
+  <Step title="Send crypto to the shown address">
+    The app will display a **deposit address** and the **exact amount** to send. Open your wallet and send that precise amount to that address.
+
+    <Warning>
+      Send only the exact asset and amount shown. Sending the wrong asset or a different amount may result in a failed trade. See the [Refunds & Failed Trades](/refunds-failed-trades) page if this happens.
+    </Warning>
+
+    - Do **not** send from an exchange or third-party custodian that may alter the transaction.
+    - On-chain confirmations are required before the BRL release is triggered — do not close the app until you see the order status update.
+  </Step>
+
+  <Step title="Receive BRL via Pix">
+    Once your crypto deposit is confirmed on-chain, P2P.me verifies the transaction and releases the BRL payment to your Pix key automatically.
+
+    The BRL should appear in your bank app shortly after on-chain confirmation.
+  </Step>
+</Steps>
+
+<Note>
+  Pix payments may take a few minutes to appear in your bank app after the on-chain confirmation, depending on your bank's processing time.
+</Note>
+
+## Need help or something went wrong?
+
+- For failed trades, incorrect amounts sent, or missing BRL payments, see [Refunds & Failed Trades](/refunds-failed-trades).
+- For questions about your sell limits or verification status, see [Limits & Verification](/limits-verification).
