@@ -1,5 +1,5 @@
 ---
-title: "0xramp Technical Architecture Overview"
+title: "0xramp Technical Architecture: Stack and Components"
 sidebarTitle: "Architecture"
 description: "A high-level overview of 0xramp's stack: React/Vite frontend, Express API, P2P.me SDK, and NEAR Intents integration for developers and contributors."
 ---
@@ -21,7 +21,7 @@ description: "A high-level overview of 0xramp's stack: React/Vite frontend, Expr
 
 When a user initiates a transaction in the UI, the React frontend sends the order parameters to the Express API, which coordinates session state and order lifecycle. The Express layer invokes the `@p2pdotme/sdk` to place the on-chain order, match a Pix counterparty, and manage USDC escrow on Base. Once USDC is settled, NEAR Intents executes the conversion into the user's target asset (e.g. ZEC, SOL, ETH). Status updates from both P2P.me and NEAR Intents are surfaced back through the API and reflected in real time in the frontend UI.
 
-```
+```text
 User (browser)
     │  React + Vite
     ▼
