@@ -1,55 +1,86 @@
-# Mintlify Starter Kit
+# 0xramp docs
 
-Use the starter kit to get your docs deployed and ready to customize.
+Official documentation for **[0xramp.app](https://www.0xramp.app)** — the non-custodial fiat ↔ crypto on/off-ramp by **[0xramp labs](https://github.com/0xramp-labs)**.
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
+This repository is the source of the public docs site (Mintlify). Content is mostly **user-facing**, with a smaller **developers** section.
 
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
+## What 0xramp is
 
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
+0xramp lets users buy and sell crypto against local fiat rails such as **BRL via Pix**.
 
-## AI-assisted writing
+| Piece | Role |
+| -------- | ------ |
+| **0xramp** | Product UX, session tracking, status experience |
+| **P2P.me** | Identity, reputation, limits, verification, Pix matching, USDC escrow on Base |
+| **NEAR Intents** | Conversion between Base USDC and the user’s asset |
 
-Set up your AI coding tool to work with Mintlify:
+Orders are placed **on-chain** by the user’s P2P.me smart account or a connected wallet (e.g. Rabby, Phantom). 0xramp does **not** hold user keys or bank credentials.
+
+Live app: [https://www.0xramp.app](https://www.0xramp.app)
+
+## Docs map
+
+| Area | Pages (examples) |
+| ------ | ------------------ |
+| Product | Introduction, How it works, Buying, Selling |
+| Account | Accounts & identity, Limits & verification |
+| Money path | Fees & quotes, Refunds & failed trades, Supported assets |
+| Trust | Security & trust, FAQ |
+| Builders | `developers/` (architecture, contribution notes) |
+
+Navigation and site config live in [`docs.json`](./docs.json).
+
+## Local development
+
+Requires Node.js 20+.
 
 ```bash
-npx skills add https://mintlify.com/docs
-```
-
-This command installs Mintlify's documentation skill for your configured AI tools like Claude Code, Cursor, Windsurf, and others. The skill includes component reference, writing standards, and workflow guidance.
-
-See the [AI tools guides](/ai-tools) for tool-specific setup.
-
-## Development
-
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
-
-```
+# Install Mintlify CLI (once)
 npm i -g mint
-```
 
-Run the following command at the root of your documentation, where your `docs.json` is located:
-
-```
+# From this repo
 mint dev
 ```
 
-View your local preview at `http://localhost:3000`.
+Open the URL the CLI prints (usually <http://localhost:3000>).
+Useful commands:
 
-## Publishing changes
+```
+mint broken-links   # optional link check
+mint dev            # local preview
+```
 
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
+## Publishing
 
-## Need help?
+The site deploys automatically when changes land on the configured branch (typically main), via the Mintlify GitHub App connected to this repository.
 
-### Troubleshooting
+Push or merge to main → production docs update
+PRs can get preview deployments when the app is configured
 
-- If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
-- If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
+Dashboard: <https://app.mintlify.com>
 
-### Resources
-- [Mintlify documentation](https://mintlify.com/docs)
+## Contributing
+
+1. Branch from main
+2. Edit or add .mdx pages; update docs.json if you change navigation
+3. Run `mint dev` and verify locally
+4. Open a PR to main
+
+## Guidelines
+
+- Prefer short pages and clear language
+- Do not claim 0xramp custodians funds, runs KYC itself, or sets limits independently of P2P.me
+- Do not document secrets, private admin APIs, or production credentials
+- Mark beta / partner-gated behavior explicitly when it is not always on
+
+App source (private): 0xramp-labs/0xramp-app
+
+## Related
+
+- App: 0xramp.app
+- Org: github.com/0xramp-labs
+- Mintlify: mintlify.com/docs
+
+## License
+
+See LICENSE.
