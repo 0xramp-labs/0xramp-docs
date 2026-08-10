@@ -1,18 +1,18 @@
 ---
-title: "0xramp: Non-Custodial Fiat ↔ Crypto On/Off-Ramp"
+title: "0xramp: Non-Custodial Fiat ↔ Crypto"
 sidebarTitle: "Introduction"
-description: "0xramp is a non-custodial on/off-ramp for buying and selling crypto with BRL via Pix. Your funds and keys remain yours throughout every transaction."
+description: "0xramp is a non-custodial on/off-ramp for buying and selling crypto with fiat via local payment services (Pix, Pago Movil, Alias, UPI, QRIS). Your funds and keys remain yours throughout every transaction."
 ---
 
-0xramp is a product by 0xramp Labs that lets you buy and sell crypto using Brazilian Real (BRL) via Pix — without ever giving up custody of your funds or keys. It is not a bank, not a custodian, and not P2P.me. Think of it as the interface layer that brings together payment infrastructure, on-chain escrow, and cross-asset swaps into a single, straightforward experience.
+0xramp is a product by 0xramp Labs that lets you buy and sell crypto using fiat currencies via local payment services from different countries (Pix, Pago Movil, Alias, UPI, QRIS) — without ever giving up custody of your funds or keys. It is not a bank, not a custodian, and not P2P.me. Think of it as the interface layer that brings together payment infrastructure, on-chain escrow, and cross-asset swaps into a single, straightforward experience.
 
 ## Key Facts
 
-- **Non-custodial by design.** 0xramp never holds your funds, private keys, or Pix credentials at any point. Orders are placed directly on-chain by your wallet.
-- **Powered by P2P.me rails.** Identity verification, KYC, trading limits, Pix payment matching, and USDC escrow on Base are all handled by P2P.me's infrastructure.
-- **Asset conversion via NEAR Intents.** Once your BRL hits the P2P.me escrow, NEAR Intents handles the swap between Base USDC and your chosen asset — seamlessly and on-chain.
-- **Supported corridor: BRL via Pix (Brazil).** Payments in and out are settled through Pix, Brazil's instant payment network.
-- **Available assets.** You can buy or sell ZEC, SOL, ETH, USDC, and any asset supported in the NEAR Intents catalog.
+- **Non-custodial by design.** 0xramp never holds your funds, private keys, or bank credentials at any point. Orders are placed directly on-chain by your wallet.
+- **Powered by P2P.me rails.** Identity verification, KYC, trading limits, fiat payment matching, and USDC escrow on Base are all handled by P2P.me's infrastructure.
+- **Asset conversion via NEAR Intents.** Once your fiat hits the P2P.me escrow, NEAR Intents handles the swap between Base USDC and your chosen asset — seamlessly and on-chain.
+- **Supported corridors:** BRL via Pix (Brazil), VES via Pago Movil (Venezuela), ARS via Alias (Argentina), INR via UPI (India), and IDR via QRIS (Indonesia).
+- **Available assets.** You can buy or sell ZEC, NEAR, SOL, BTC, ETH, USDC, and any asset supported in the NEAR Intents catalog.
 
 <Note>
   **0xramp is not P2P.me.** P2P.me is the infrastructure layer — it owns identity, KYC, Pix matching, limits, and USDC escrow. 0xramp is the product experience built on top of it.
