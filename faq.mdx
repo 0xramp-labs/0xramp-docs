@@ -136,7 +136,8 @@ This FAQ covers the most common questions users have about 0xramp. If you are de
   </Accordion>
 
   <Accordion title="What countries and currencies are supported?">
-    0xramp currently supports **BRL (Brazilian Real) via Pix** for users in Brazil. Pix is Brazil's instant payment network, and it is the only fiat corridor available at this time.
+   Stable: BRL (Pix), INR (UPI), IDR (GoPay / QRIS), ARS (Alias), VEN (Pago Móvil).
+   Alpha (mainnet, start small): COP, NGN, ECU, BOB, CUP, PEN, PHP.
 
     Additional corridors and currencies may be added as the protocol expands. Check the app or the 0xramp website at [https://www.0xramp.app](https://www.0xramp.app) for the latest availability.
   </Accordion>
@@ -149,5 +150,7 @@ This FAQ covers the most common questions users have about 0xramp. If you are de
     - **0xramp session data** (your connected wallet address and order status) is handled by the 0xramp backend as described in the [Security & Trust](/security-trust) documentation.
 
     If privacy is important to you, review the P2P.me privacy documentation for full details on how identity data is handled.
+
+    In summary: The ramp is not a privacy protocol. Base and NEAR legs are public. ZEC delivery is a transparent t-addr. Amount and timing can be joined across those hops. After ZEC lands, shielding is your wallet. 0xramp does not store your bank login or a plaintext sell key; it does store the destination address you typed, because the session has to send there.
   </Accordion>
 </AccordionGroup>
