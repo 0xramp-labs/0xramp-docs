@@ -1,27 +1,39 @@
 ---
-title: "0xramp Changelog — Beta Release History and Roadmap"
+title: "SDK Changelog"
 sidebarTitle: "Changelog"
-description: "Release history for 0xramp."
+description: "Release history for @0xramp/sdk."
 ---
 
-**v1.0.0** is the current production release.
+## v0.0.2 -- Recovery additions
 
-## v1.0.0 — Production
+- `createZecSendStore(storage)` -- durable journal over secure get/set storage.
+- `restoreSession(saved)` -- revalidates session and origin, restores status ticket without POST.
+- `isAllowedPaneUrl(url)` -- exposes client origin policy.
+- `requestTimeoutMs` -- bounds fetch plus body parsing; redirects and retries disabled.
+- `sendZecSendResult` / `sendZecSendCancel` -- persist before replying; only accept known requests.
+- `onSendRecoveryRequired` -- receives pending reason and known transaction IDs.
+- `psp/zec-send-pending` host reply with reasons: `in-progress`, `broadcast-unknown`, `multiple-transactions`, `storage-unavailable`.
+- Multi-transaction ID support (1-32 individual 64-hex IDs).
+- `sessionUrl` checked against pane allowlist on create.
+- Bridge binds only on `psp/ready`; pre-ready messages rejected.
+- `ApiError` redacts raw sessionRef from error messages.
+- Status ticket Map capped at 16 most recent.
 
-- Organic app shell: buy/sell, swap, activity, account/limits, invites, help
-- Dual identity on both legs: P2P.me smart account or Rabby / Phantom
-- Fiat-first quotes; in-app receipts
-- Stable corridors: BRL, INR, IDR, ARS, VEN
-- Alpha (start small): COP, NGN, ECU, BOB, CUP, PEN, PHP
-- ZEC default; transparent t-addr only
-- 0xramp product fee remains zero
+## v0.0.1 -- Initial scaffold
 
-## v0.9.0 / v0.9.1 — Open beta (historical)
-
-Public beta on 2026-08-20. Buy/sell against the first stable rails, P2P.me identity, NEAR Intents conversion. Superseded by v1.0.0.
+- `createRampClient` with environment, partnerId, sendStore config.
+- `createSession` -- POST to partner sessions endpoint.
+- `attachPaneBridge` -- host-side bridge with origin lock, single-use requestIds, session mismatch handling.
+- `getStatus` -- ticketed read-only status endpoint.
+- `parseReturnUrl` -- advisory deep-link parsing.
+- PSP-v1 envelope: `{ v: 1, type, sessionRef, payload }`.
+- Four bridge events: `psp/ready`, `psp/zec-send-request`, `psp/result`, `psp/close`.
+- Two host replies: `psp/zec-send-result`, `psp/zec-send-cancel`.
+- Golden wire fixtures for conformance testing.
+- Sandbox pane for development without 0xramp access.
+- Electron and React Native example hosts.
+- Pure ESM, strictly typed, React-free. Zero runtime dependencies besides schema validation.
 
 <Note>
-  This changelog will be updated as releases ship. Subscribe to the GitHub repository to receive release notifications.
-
-  **TODO:** Add a link to GitHub Releases when the repository is public.
+  The SDK is under active development. The public API and wire format are additive-only until the protocol freezes at 0.1.0.
 </Note>

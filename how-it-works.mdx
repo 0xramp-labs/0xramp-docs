@@ -1,52 +1,46 @@
 ---
-title: "How 0xramp Works: Buy and Sell Crypto with Fiat"
+title: "How 0xramp Works"
 sidebarTitle: "How It Works"
-description: "Learn how 0xramp's buy (fiat to crypto) and sell (crypto to fiat) flows work across P2P.me, Base USDC, and NEAR Intents."
+description: "Buy, sell, and pay with QR -- how each flow moves through P2P.me, NEAR Intents, and your wallet."
 ---
 
-0xramp supports two flows — buying crypto with fiat and selling crypto to receive fiat — both settled via a network of P2P merchants around the world. Under the hood, every transaction moves through three layers: **P2P.me** ochestrates the orders and handles the fiat payment + USDC escrow on Base, **NEAR Intents** converts USDC to or from your chosen asset, and **0xramp** ties it all together with a clear interface, live quotes, and order status tracking.
+Every 0xramp transaction moves through three layers: **P2P.me** orchestrates the order and handles fiat payment plus USDC escrow on Base, **NEAR Intents** converts USDC to or from your chosen asset, and **0xramp** ties it together with quotes and status tracking.
 
----
-
-## Buying Crypto (Fiat → Asset)
+## Buy (fiat to crypto)
 
 <Steps>
   <Step title="Enter amount and address">
-    Choose the asset you want to receive (for example, ZEC or NEAR), enter your receiving wallet address, and review the quoted rate. The quote reflects the current USDC/asset price via NEAR Intents and the FIAT/USDC rate from P2P.me.
+    Choose the asset you want (ZEC, NEAR, SOL, etc.), enter your receiving wallet address, and review the quote.
   </Step>
-  <Step title="Pay via Fiat">
-    A Fiat QR code is displayed in the app (for example, Pix, Pago Movil, Alias, UPI, QRIS). Scan or copy it and complete the payment from your bank app for the exact amount shown. The fiat address belongs to a P2P.me merchant. 0xramp never handles your payment credentials.
+  <Step title="Pay via your local rail">
+    A payment code appears (Pix QR, UPI ID, Alias, etc.). Pay the exact amount from your bank app. The payment goes to a P2P.me merchant. 0xramp never handles your payment credentials.
   </Step>
   <Step title="Receive your crypto">
-    P2P.me detects and matches your fiat payment, then locks the equivalent USDC in escrow on Base. NEAR Intents converts that USDC into your chosen asset and delivers it to your wallet. The entire process typically takes **around 6 minutes**.
+    P2P.me matches your payment and locks USDC in escrow on Base. NEAR Intents converts that USDC into your asset and delivers it to your wallet. Typically takes around 6 minutes.
   </Step>
 </Steps>
 
----
+{/* SCREENSHOT: The buy flow with country selector showing Brazil flag, amount input field, and the estimated ZEC receive amount with flow summary showing total cost percentage. */}
 
-## Selling Crypto (Asset → Fiat)
+## Sell (crypto to fiat)
 
 <Steps>
-  <Step title="Enter sell amount and fiat account">
-    Select the asset you want to sell and the amount, then enter your fiat address (for example, a Pix key).
+  <Step title="Enter sell amount and fiat key">
+    Select the asset and amount to sell, then enter your fiat payment key (Pix key, UPI ID, Alias, etc.).
   </Step>
   <Step title="Send your crypto">
-    The app shows you a deposit address and the exact amount to send. Initiate the transfer from your wallet. Keep in mind that **blockchain transactions are irreversible** — double-check the address and amount before confirming.
+    The app shows a deposit address and exact amount. Send from your wallet. This is a two-leg process: your asset is first swapped to USDC on Base via NEAR Intents, then a P2P.me merchant pays you in fiat.
   </Step>
   <Step title="Receive fiat">
-    Once your transaction is confirmed on-chain, P2P.me verifies the deposit and releases the corresponding fiat payment to provided account. You'll receive the funds directly in your bank account.
+    Once your deposit is confirmed on-chain, the merchant releases the fiat payment to your key. Funds appear in your bank or payment app shortly after.
   </Step>
 </Steps>
 
----
+{/* SCREENSHOT: The sell flow showing the 'You Send' section with ZEC selected, the refund address field with 'Fill from NOIR' button, and the 'You Receive' section with Brazil/Pix key input and quick-select amount buttons. */}
 
-## The Three Layers
+## Pay with QR (pilot)
 
-Every 0xramp transaction runs across three distinct components:
-
-- **P2P.me** — Owns identity, KYC, and trading limits. Matches fiat payments and manages USDC escrow on Base. All on-chain escrow logic lives here.
-- **NEAR Intents** — Handles the on-chain swap between Base USDC and your target asset (or vice versa when selling). Supports a broad catalog of assets beyond just USDC.
-- **0xramp** — The product layer. Provides the interface, displays quotes, correlates your session with the on-chain order, and surfaces real-time status updates. 0xramp does not touch your funds at any point.
+Fund a merchant QR payment using ZEC. You deposit ZEC, it converts to USDC, and a PAY order is created. The partner provides a fresh merchant QR for you to pay. See [Pay with QR](/pay-with-qr) for details.
 
 <Note>
   All orders are placed on-chain by your wallet or P2P.me smart account. 0xramp has no custody of your funds at any point.

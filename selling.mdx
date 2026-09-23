@@ -1,63 +1,47 @@
 ---
-title: "Sell Crypto for Fiat on 0xramp"
+title: "Sell Crypto for Local Fiat"
 sidebarTitle: "Selling"
-description: "Send crypto from your wallet and receive fiat currencies ({currencies}) to your bank app. No custodian needed — P2P.me releases payment once your deposit is confirmed on-chain."
+description: "Send crypto from your wallet and receive local fiat (Pix, UPI, QRIS, Alias, Pago Movil) to your bank or payment app."
 ---
 
-The 0xramp sell flow lets you convert crypto into fiat currencies and receive the funds directly to your bank account or payments app — no bank linking required on our end. You send the crypto to a deposit address shown in the app, and once it's confirmed on-chain, P2P.me releases the fiat payment straight to you. Before you start, make sure your wallet holds the asset you want to sell and that you have a valid payment app key ready.
+Sell ZEC, NEAR, SOL, ETH, USDC, and other assets. Send crypto to a deposit address and receive local fiat to your bank or payment app.
 
-## Requirements
+{/* SCREENSHOT: The sell flow showing the 'You Send' section with ZEC selected, the refund address field with 'Fill from NOIR' button, and the 'You Receive' section with Brazil/Pix key input and quick-select amount buttons (R$27, R$300, R$800, R$3,900). */}
 
-- A connected wallet (P2P.me smart account, Rabby, or Phantom) **holding the asset you want to sell**
-- A valid **fiat payment key or bank account**.
+## How selling works
+
+Selling is a two-leg process:
+
+1. Your asset is swapped to USDC on Base via NEAR Intents.
+2. A P2P.me merchant pays you in local fiat from the escrowed USDC.
+
+If the merchant leg fails, the USDC stays in your P2P.me account on Base. You can withdraw it or use it for another trade.
 
 ## Steps
 
 <Steps>
   <Step title="Select asset and amount">
-    Open [0xramp](https://www.0xramp.app) and switch to the **Sell** tab. Choose the asset you'd like to sell — ZEC, NEAR, SOL, ETH, BTC, USDC, or another supported asset — and enter the amount you want to convert to fiat.
-
-    The minimum order is **$6.00** equivalent. Your maximum sell amount is set by your P2P.me on-chain reputation and verification level.
+    Open [0xramp.app](https://www.0xramp.app) and switch to the **Sell** tab. Choose the asset and enter the amount. Minimum and maximum amounts are shown in the UI.
   </Step>
-
+  <Step title="Enter your refund address">
+    Provide a transparent ZEC address (or the equivalent for your asset's chain). This is where funds return if the merchant leg fails. For ZEC, you can use the **Fill from NOIR** button if you have Noir Wallet connected.
+  </Step>
   <Step title="Enter your fiat key">
-    Enter the payment key or bank account where you want to receive your fiat.
-
-    Double-check that the payment key is correct — 0xramp does not store your credentials and cannot redirect a payment once it has been sent.
+    Enter the payment key or bank account where you want to receive fiat (Pix key, UPI ID, Alias, etc.). Double-check it -- 0xramp cannot redirect a payment once sent.
   </Step>
-
   <Step title="Review the quote">
-    Before sending any crypto, review the full breakdown:
-
-    - **Fiat amount you'll receive** — after fees and the current exchange rate
-    - **Fee breakdown** — fixed fee, conversion costs, and rate spread
-
-    Confirm the quote when you're ready to proceed. This places the order on-chain.
+    Review the fiat amount you'll receive, the fee breakdown, and the exchange rate. Confirm to place the order on-chain.
   </Step>
-
-  <Step title="Send crypto to the shown address">
-    The app will display a **deposit address** and the **exact amount** to send. Open your wallet and send that precise amount to that address.
+  <Step title="Send crypto to the deposit address">
+    The app shows a deposit address and exact amount. Send that precise amount from your wallet.
 
     <Warning>
-      Send only the exact asset and amount shown. Sending the wrong asset or a different amount may result in a failed trade. See the [Refunds & Failed Trades](/refunds-failed-trades) page if this happens.
+      Send only the exact asset and amount shown. Sending the wrong asset or amount may result in a failed trade. Do not send from an exchange that may alter the transaction.
     </Warning>
-
-    - Do **not** send from an exchange or third-party custodian that may alter the transaction.
-    - On-chain confirmations are required before the fiat release is triggered — do not close the app until you see the order status update.
   </Step>
-
   <Step title="Receive fiat">
-    Once your crypto deposit is confirmed on-chain, P2P.me verifies the transaction and releases the fiat payment to your key or bank account automatically.
-
-    The selected fiat currency should appear in your bank/payment app balance shortly after on-chain confirmation.
+    Once your deposit is confirmed on-chain, the merchant releases the fiat payment to your key. Funds appear in your bank or payment app shortly after.
   </Step>
 </Steps>
 
-<Note>
-  Fiat payments may take a few minutes to appear in your bank app after the on-chain confirmation, depending on your bank's processing time.
-</Note>
-
-## Need help or something went wrong?
-
-- For failed trades, incorrect amounts sent, or missing fiat payments, see [Refunds & Failed Trades](/refunds-failed-trades).
-- For questions about your sell limits or verification status, see [Limits & Verification](/limits-verification).
+If something goes wrong, see [Failed Trades](/failed-trades).

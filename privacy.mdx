@@ -1,0 +1,47 @@
+---
+title: "Privacy"
+sidebarTitle: "Privacy"
+description: "What 0xramp sees, what it doesn't, and the honest privacy tradeoffs of using a non-custodial ramp."
+---
+
+0xramp is non-custodial: at no point does 0xramp hold both your funds and your keys. But the ramp is not a privacy protocol. Here's what that means in practice.
+
+## What 0xramp sees
+
+| Data | Visible to 0xramp? |
+|------|-------------------|
+| Your wallet address (EVM) | Yes -- you signed in with it |
+| The destination address you typed | Yes -- the session needs to send there |
+| Order amounts and timestamps | Yes -- stored for reconciliation |
+| Your bank login or Pix/UPI credentials | **No** -- never transmitted or stored |
+| Your private key or seed phrase | **No** -- never leaves your wallet |
+| Your sell payout key (plaintext) | **No** -- encrypted in your browser to the merchant; 0xramp stores only a hash |
+| Your KYC documents | **No** -- handled by P2P.me via zero-knowledge proofs |
+
+## What is public on-chain
+
+- **Base:** order amount, timestamps, signing address, NEAR deposit address.
+- **NEAR Intents:** route, amounts, deposit address.
+- **Zcash:** transparent delivery address and amount (t-addr is public like a Bitcoin address).
+
+Amount and timing can be joined across these three hops by anyone watching all ledgers.
+
+## What survives the ramp
+
+- No 0xramp custody of keys or fiat.
+- Sell payout key is encrypted to the merchant, not stored in the clear.
+- Buy destination is chosen by you; P2P.me's on-chain recipient is the NEAR deposit, not your ZEC address.
+- After you receive ZEC, shielding is your wallet's job (`z_shieldcoinbase` or t-to-z send).
+
+## What does not survive
+
+- **Identity on the fiat rail.** Above P2P.me base limits you are in their verification system. Even inside base limits, the merchant who received your payment saw a real-world transaction.
+- **Public metadata on Base and NEAR.** Amount, timestamps, signing address are on-chain.
+- **Transparent ZEC delivery.** The t-addr and value are on the Zcash chain.
+- **Timing.** Fiat settle, Intents swap, t-addr payment happens in a short window. Size plus time is a fingerprint.
+
+<Note>
+  If your threat model is "I do not want 0xramp holding my ZEC," we match that. If your threat model is "the buy must be unlinkable from my Pix payment to a z-addr," we do not provide that. Use a t-addr you control, then shield, and do not treat the ramp itself as a privacy protocol.
+</Note>
+
+For P2P.me's privacy practices, see [p2p.me](https://p2p.me).

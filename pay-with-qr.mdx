@@ -1,0 +1,36 @@
+---
+title: "Pay with QR"
+sidebarTitle: "Pay with QR"
+description: "Fund a merchant QR payment using ZEC. Pilot feature -- start with small amounts."
+---
+
+<Warning>
+  Pay with QR is a **pilot feature**. Start with small amounts and expect occasional friction. Report issues via [Telegram](https://t.me/zeroxramp).
+</Warning>
+
+Pay with QR lets you fund a merchant payment (Pix, UPI, etc.) using ZEC. You deposit ZEC, it converts to USDC on Base, and a PAY order is created. The partner provides a fresh merchant QR for you to scan and pay.
+
+{/* SCREENSHOT: The Pay with QR page showing the 3-step progress (Amount to pay -> Pay -> Merchant QR), payment country selector set to Brazil, amount R$27, estimated ZEC send amount, and the refund address field with 'Fill from NOIR' button. */}
+
+## Steps
+
+<Steps>
+  <Step title="Select country and amount">
+    Open the **Pay** tab in [0xramp.app](https://www.0xramp.app). Choose your payment country and enter the fiat amount you want to pay. The app shows how much ZEC you need to send.
+  </Step>
+  <Step title="Provide a refund address">
+    Enter a transparent ZEC address for refunds. Use **Fill from NOIR** if you have Noir Wallet connected.
+  </Step>
+  <Step title="Send ZEC">
+    Send the exact ZEC amount shown to the deposit address. This funds the PAY order.
+  </Step>
+  <Step title="Get the merchant QR">
+    Once your ZEC is confirmed and converted, the partner provides a fresh merchant QR code. Scan it from your bank app to complete the payment.
+  </Step>
+</Steps>
+
+<Note>
+  Only static Pix is supported for now. Dynamic Pix QR codes are blocked. The 12-country ceiling comes from the P2P.me country catalog.
+</Note>
+
+For details on how the underlying protocol works, see the [Zcash forum post](https://forum.zcashcommunity.com/t/introducing-0xramp-non-custodial-zec-local-fiat-pix-and-more-for-emerging-markets/57215).

@@ -1,0 +1,68 @@
+---
+title: "Refer and Earn"
+sidebarTitle: "Referrals"
+description: "Generate a referral link, earn a percentage of protocol fees from your invitees' orders, and claim rewards in USDC."
+---
+
+Share your referral link and earn a percentage of the protocol fees from every order your invitees place. Rewards accrue in USDC on-chain.
+
+{/* SCREENSHOT: The Refer and Earn page showing 'Generate referral link' button, 'Reward to Claim: 0.00 USDC', and 'Your Referrals: 0 accounts' section. */}
+
+## For the referrer
+
+<Steps>
+  <Step title="Check eligibility">
+    Open [0xramp.app](https://www.0xramp.app) and go to **Invites** in the sidebar. You need an account limit of **$150+** (same criterion as app.p2p.me). Below that, the panel shows the requirement -- raise your limit via [verification](/limits-verification) to unlock referrals.
+  </Step>
+  <Step title="Generate your link">
+    Click **Generate referral link**. Your wallet asks for one signature -- off-chain, free, no gas.
+  </Step>
+  <Step title="Share">
+    Copy or share the link. One link serves unlimited invitees. The signature authorizes "whoever arrives through this link," not a specific person.
+  </Step>
+  <Step title="Earn and claim">
+    The panel lists your referrals and accrued reward: a percentage of the protocol fees from your invitees' orders, accumulating in USDC on-chain. The exact percentage is read on-chain and may change with protocol configuration. Click **Claim reward** to transfer accrued USDC to your account (gas sponsored on the embedded account).
+  </Step>
+</Steps>
+
+## For the invitee
+
+<Steps>
+  <Step title="Open the link">
+    The invite is captured and survives reload/login redirects.
+  </Step>
+  <Step title="Connect or create an account">
+    P2P.me login creates the smart account instantly.
+  </Step>
+  <Step title="Accept the referral">
+    A **"You received an invite"** prompt appears. Click **Accept referral**. Your account signs a sponsored transaction -- the referral is recorded on-chain and permanent.
+  </Step>
+</Steps>
+
+## Rules
+
+- One referrer per account, permanently. Cannot be changed later.
+- No self-referral.
+- Already-referred accounts cannot re-accept.
+- The referrer must be eligible ($150+ limit).
+
+## Interoperability
+
+The smart account is shared with [app.p2p.me](https://app.p2p.me). Links from either app work in the other, and rewards accrue to the same on-chain balance.
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Does generating a link cost anything?">
+    No. It's an off-chain signature -- free, no gas.
+  </Accordion>
+  <Accordion title="Does the link expire?">
+    No. It stays valid and reusable indefinitely.
+  </Accordion>
+  <Accordion title="Where does the reward come from?">
+    A percentage of protocol fees on your invitees' orders, in USDC. The percentage is read on-chain and may change with protocol configuration.
+  </Accordion>
+  <Accordion title="I got 'your account already has a registered referrer'">
+    Each account can only be referred once, permanently. This cannot be changed.
+  </Accordion>
+</AccordionGroup>

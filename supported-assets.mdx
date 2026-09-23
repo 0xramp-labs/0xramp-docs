@@ -1,55 +1,52 @@
 ---
-title: "Supported Crypto Assets and Address Formats on 0xramp"
+title: "Supported Assets and Corridors"
 sidebarTitle: "Supported Assets"
-description: "Full list of cryptocurrencies on 0xramp, their networks, and address rules — including why only Zcash transparent addresses are supported for delivery."
+description: "Full list of supported crypto assets, networks, and fiat corridors with their current status."
 ---
 
-0xramp lets you move between Brazilian reais (BRL) and a growing set of cryptocurrencies — all without giving up custody of your funds. Before placing an order, make sure you're sending to the right address on the right network. Providing an incorrect address or mismatching networks can result in permanent, unrecoverable loss of funds.
-
-## Supported Assets
+## Crypto assets
 
 | Asset | Symbol | Network | Notes |
-|---|---|---|---|
-| Zcash | **ZEC** | Zcash | Transparent addresses (t-addr) only — see below |
-| Solana | **SOL** | Solana | — |
-| Ether | **ETH** | Ethereum | — |
-| USD Coin | **USDC** | Base | ERC-20 on Base network |
-| NEAR Intents catalog | **Various** | NEAR Protocol | Additional assets available via NEAR Intents — check the app for the current list |
-
-<Note>
-  The asset list may expand over time. Always check the 0xramp app at [0xramp.app](https://www.0xramp.app) for the latest supported assets.
-</Note>
-
-## Zcash Addresses
-
-Zcash has two distinct address types, and it's important to know the difference before placing an order:
-
-- **Transparent addresses (t-addr)** start with the letter `t`. These are publicly visible on the Zcash blockchain, similar to Bitcoin addresses. **0xramp currently delivers ZEC to transparent addresses only.**
-- **Shielded addresses (z-addr)** start with `z` (Sapling) or `u` (Unified). These use zero-knowledge proofs to keep transaction details private. **Shielded addresses are not currently supported for delivery on 0xramp.**
-
-If you provide a shielded address when buying ZEC, your order cannot be completed. Use a transparent `t-addr` from your wallet when entering your destination address.
+|-------|--------|---------|-------|
+| Zcash | ZEC | Zcash | Transparent addresses (t-addr) only for delivery |
+| NEAR | NEAR | NEAR Protocol | |
+| Solana | SOL | Solana | |
+| Ether | ETH | Ethereum | |
+| Bitcoin | BTC | Bitcoin | |
+| Avalanche | AVAX | Avalanche C-Chain | |
+| USD Coin | USDC | Base | ERC-20 on Base network |
+| NEAR Intents catalog | Various | Multiple | Additional assets available via NEAR Intents |
 
 <Warning>
-  Do not provide a Zcash shielded address (starting with `z` or `u`) as your delivery address. Only transparent addresses starting with `t` are supported for ZEC delivery at this time.
+  For ZEC delivery, use a transparent address starting with `t`. Shielded addresses (starting with `z` or `u`) are not supported. After receiving ZEC, you can shield it in your own wallet.
 </Warning>
 
-## Address Safety Rules
-
-- **Copy-paste your address — never type it manually.** A single incorrect character sends funds to an unreachable address permanently.
-- **Check for required memos or destination tags.** Some assets and chains (such as certain ERC-20 tokens or exchange deposit addresses) require a memo, tag, or additional identifier alongside the address. Check your wallet or exchange's instructions before providing an address to 0xramp.
-- **Sending to the wrong address is permanent.** Blockchain transactions cannot be reversed, recalled, or refunded. There is no recovery mechanism — not by 0xramp, not by P2P.me, not by anyone.
-- **Verify that the asset and network match your wallet.** For example, USDC on 0xramp settles on the Base network. Sending Base USDC to an Ethereum wallet address that doesn't support Base will result in loss of funds.
-
-<Warning>
-  Blockchain transactions are irreversible. Verify your address and chain before confirming any order.
-</Warning>
+The asset list may expand. Check [0xramp.app](https://www.0xramp.app) for the latest.
 
 ## Fiat corridors
 
-| Status | Code | Rail |
-| --- | --- | --- |
-| Stable | BRL, INR, IDR, ARS, VEN | Pix, UPI, GoPay / QRIS, Alias, Pago Móvil |
-| Alpha | COP, NGN, ECU, BOB, CUP, PEN, PHP | Live catalog; start small |
-| Disabled | MEX | — |
+| Status | Code | Currency | Rail |
+|--------|------|----------|------|
+| Stable | BRL | Brazilian Real | Pix |
+| Stable | INR | Indian Rupee | UPI |
+| Stable | IDR | Indonesian Rupiah | QRIS |
+| Stable | ARS | Argentine Peso | Alias |
+| Stable | VES | Venezuelan Bolivar | Pago Movil |
+| Alpha | COP | Colombian Peso | Nequi / transfer |
+| Alpha | NGN | Nigerian Naira | Transfer |
+| Alpha | ECU | Ecuadorian currency | Transfer |
+| Alpha | BOB | Bolivian Boliviano | Transfer |
+| Alpha | CUP | Cuban Peso | Transfer |
+| Alpha | PEN | Peruvian Sol | Transfer |
+| Alpha | PHP | Philippine Peso | Transfer |
+| Disabled | MEX | Mexican Peso | -- |
 
-The country list in the app comes from the settlement protocol. If a corridor is missing or marked alpha, believe the app.
+**Stable** corridors are fully operational. **Alpha** corridors are live on mainnet but start with small amounts -- treat them as early-access. The country list in the app comes from the P2P.me settlement protocol; if a corridor is missing or marked differently, trust the app.
+
+{/* SCREENSHOT: The country/payment rail dropdown showing available corridors with flags. */}
+
+## Address safety
+
+- **Copy-paste your address.** Never type it manually.
+- **Match asset and network.** USDC on 0xramp settles on Base. Sending Base USDC to an Ethereum-only wallet will lose funds.
+- **Transactions are irreversible.** There is no recovery mechanism.

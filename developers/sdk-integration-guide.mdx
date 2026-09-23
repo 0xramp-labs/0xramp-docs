@@ -1,0 +1,199 @@
+---
+title: "SDK Integration Guide"
+sidebarTitle: "Integration Guide"
+description: "Full SELL ZEC to fiat happy path: create session, attach bridge, implement transport, handle sends, reconcile status."
+---
+
+This guide walks the SELL ZEC to fiat happy path end to end. Read [Overview](/developers/sdk-overview) first and [API Reference](/developers/sdk-api-reference) for the full surface.
+
+## Prerequisites
+
+- Node >= 20; pure ESM, strictly typed TypeScript.
+- SDK v0.0.2 (`@0xramp/sdk`). Install from repo (see [Quickstart](/developers/sdk-quickstart)).
+- Issued by 0xramp: `partnerId`, enabled corridor, API origin, pane origins.
+- Your app provides: ZEC wallet core (signs transparent-address sends), secure storage scoped to one unlocked wallet, WebView with navigation control, return-link scheme.
+- Attribution: render **"Powered by 0xramp . P2P.me"** at the ramp entry point.
+
+## Terminology
+
+| Term | Meaning |
+|------|---------|
+| Host | Your app that embeds the SDK |
+| Wallet | Your app's ZEC signing capability |
+| Pane | 0xramp.app content loaded in your WebView |
+| Session | One ramp attempt; identified by `sessionRef` |
+| Bridge | Message channel between host and pane |
+
+## Environment configuration
+
+Two environments: `"production"` and `"staging"`.
+
+| | API base URL | Pane origins |
+|---|---|---|
+| `production`, no overrides | built-in `https://0xramp.app` | `0xramp.app` and subdomains (https only) |
+| `staging` (or any `apiBaseUrl` override) | your override | defaults to the exact API origin you passed |
+
+```ts
+const ramp = createRampClient({
+  environment: "staging",
+  partnerId: "your-issued-partner-id",
+  apiBaseUrl: "https://api.pilot.example",
+  paneOrigins: ["https://pane.pilot.example"],
+  sendStore,
+  requestTimeoutMs: 15_000,
+});
+```
+
+Rules: `apiBaseUrl`/`paneOrigins` must be https origins (no credentials, path, query, fragment). All API requests use `redirect: "error"` and no automatic retries.
+
+## Durable send journal
+
+Any bridge with a signing callback requires a `sendStore`. Construct one per unlocked wallet namespace:
+
+```ts
+const sendStore = createZecSendStore({
+  get: key => secureWalletStorage.get(key),
+  set: (key, value) => secureWalletStorage.set(key, value),
+});
+```
+
+The journal records an unresolved claim before invoking your wallet, persists the outcome before replying to the pane, and on restart replays known outcomes without re-invoking the wallet. Reuse one adapter object per wallet. `createMemoryZecSendStore()` is for tests only.
+
+## Happy path (SELL ZEC to fiat)
+
+### Step 1 -- Create the session
+
+Persist the creation intent before the POST, then create:
+
+```ts
+await sessionVault.saveCreationIntent(partnerSessionId);
+const session = await ramp.createSession({
+  direction: "sell",
+  asset: "ZEC",
+  fiat: "BRL",
+  returnUrl: "mywallet://ramp",
+  partnerSessionId,
+});
+await sessionVault.save(session);
+```
+
+Response: `{ sessionUrl, sessionRef, statusTicket, expiresAt }`. Persist the full session securely.
+
+Failures: `ConfigError`, `ApiError` (`.status` has HTTP code), `PartnerQuotaExceeded` (429), `NetworkUnavailable` (timeout -- POST is unresolved), `OriginLockViolation`.
+
+**Lost create response:** keep the persisted intent and reconcile with 0xramp before another create. `partnerSessionId` is correlation data, not a recovery credential.
+
+### Step 2 -- Attach the bridge
+
+Attach before loading the WebView, bound to this session:
+
+```ts
+const bridge = ramp.attachPaneBridge({
+  sessionRef: session.sessionRef,
+  transport,
+  onZecSendRequest: async (request, { signal }) =>
+    wallet.confirmAndSend(request, { signal }),
+  onReady: () => {},
+  onResult: () => { void refreshAuthoritativeStatus(); },
+  onSendRecoveryRequired: () => showRecoveryScreen(),
+  onClose: () => teardownPane(),
+  onProtocolError: () => { bridge.close(); },
+});
+```
+
+Pass `sessionRef` explicitly whenever more than one session exists. Close the old bridge before switching sessions. `psp/close` closes the bridge before calling `onClose`.
+
+### Step 3 -- Implement transport and load pane
+
+The transport interface:
+
+```ts
+interface PaneTransport {
+  post(message: unknown): void;
+  subscribe(handler: (raw: unknown) => void): () => void;
+}
+```
+
+**React Native:** `webViewRef.current.postMessage(JSON.stringify(message))` for host-to-pane; `onMessage` with `ramp.isAllowedPaneUrl(event.nativeEvent.url)` validation for pane-to-host.
+
+**Electron:** IPC in main process; verify `event.sender`, sender frame, and frame URL.
+
+Load the pane:
+
+```ts
+if (!ramp.isAllowedPaneUrl(session.sessionUrl)) throw new Error("origin refused");
+loadWebView(session.sessionUrl);
+```
+
+Enforce the same policy on every navigation. Display the pane origin, never the full ticket-bearing URL.
+
+### Step 4 -- Handle the send request
+
+The pane sends `psp/zec-send-request` with `{ requestId, address, amountZat, memo? }`. Your handler returns:
+
+| Wallet outcome | Bridge reply |
+|---|---|
+| `{ txid }` | `psp/zec-send-result` |
+| `{ txid, txids }` with `txids` containing `txid` | result plus all related IDs |
+| `{ txids: [a, b] }` (multiple) | `psp/zec-send-pending` (`multiple-transactions`) |
+| `{ cancel: true, reason? }` | `psp/zec-send-cancel` (only when no broadcast occurred) |
+| thrown error or invalid output | pending (`broadcast-unknown`) |
+
+Preserve all transaction IDs as an array. Never join them into one string. Identify the deposit from wallet history, or stay pending.
+
+### Step 5 -- Resolve uncertain sends
+
+Pending means reconcile, do not send again. Once wallet history proves the deposit:
+
+```ts
+await bridge.sendZecSendResult(requestId, verifiedTxid);
+```
+
+Only after proving no broadcast occurred:
+
+```ts
+await bridge.sendZecSendCancel(requestId, reason);
+```
+
+### Step 6 -- Read authoritative status
+
+```ts
+const status = await ramp.getStatus(session.sessionRef);
+// { outcome, terminal, zecTxids?, fiat?, updatedAt }
+```
+
+Lifecycle: `created -> opened -> user-active -> { settled | failed | expired | cancelled }`. Refresh on advisory `psp/result`, app foreground, return link, and user request. `expired` is reversible. `fiat.amountDisplay` is a receipt string -- never do math on it.
+
+### Step 7 -- Restore on restart
+
+```ts
+const session = ramp.restoreSession(await sessionVault.load());
+await ramp.getStatus(session.sessionRef);
+```
+
+Then attach a fresh bridge before loading the pane again.
+
+### Step 8 -- Handle return deep-link
+
+Validate scheme/host yourself, match `sessionRef` against your saved session, then:
+
+```ts
+const parsed = ramp.parseReturnUrl(url);
+// { sessionRef, outcome, claimsTerminal, params }
+```
+
+The parsed outcome never proves payment. Reconcile via `getStatus` and your chain view.
+
+## Objects to persist
+
+| Object | Where | Why |
+|--------|-------|-----|
+| Creation intent + `partnerSessionId` | secure session storage, before POST | lost-create-response reconciliation |
+| Full `RampSession` | secure session storage | restart/resume without re-creating |
+| Send journal records | `sendStore` over wallet secure storage | exactly-once sends and recovery |
+
+Treat `sessionRef + statusTicket` as bearer data: read-only status, nothing more.
+
+## Not in v0
+
+No embedded Base/EVM signer, no passkey/identity outside 0xramp.app, no fiat catalog, no payout-key handling, no limits caching, no custody. QR-PAY, swaps, referrals, social verification: not in v0. BUY requires a transparent receiving address; shielded addresses are rejected.
