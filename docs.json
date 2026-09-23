@@ -42,23 +42,34 @@
             "pages": [
               "buying",
               "selling",
-              "accounts-identity",
+              "pay-with-qr",
+              "swap",
               "supported-assets"
             ]
           },
           {
-            "group": "Limits & Fees",
+            "group": "Account",
             "pages": [
+              "getting-started",
               "limits-verification",
+              "referrals",
+              "activity"
+            ]
+          },
+          {
+            "group": "Fees",
+            "pages": [
               "fees-quotes"
             ]
           },
           {
             "group": "Safety & Support",
             "pages": [
-              "refunds-failed-trades",
-              "security-trust",
-              "faq"
+              "failed-trades",
+              "privacy",
+              "faq",
+              "donation",
+              "contact"
             ]
           }
         ]
@@ -67,15 +78,18 @@
         "tab": "Developers",
         "groups": [
           {
-            "group": "Overview",
+            "group": "SDK",
             "pages": [
-              "developers/architecture",
-              "developers/configuration",
-              "developers/contributing"
+              "developers/sdk-overview",
+              "developers/sdk-quickstart",
+              "developers/sdk-integration-guide",
+              "developers/sdk-api-reference",
+              "developers/sdk-recovery-errors",
+              "developers/sdk-readiness-checklist"
             ]
           },
           {
-            "group": "Releases",
+            "group": "About",
             "pages": [
               "developers/changelog"
             ]
@@ -86,7 +100,9 @@
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/0xramp"
+      "github": "https://github.com/0xramp-labs",
+      "x": "https://x.com/0xramp-labs",
+      "telegram": "https://t.me/zeroxramp"
     }
   }
 }

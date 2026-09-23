@@ -1,55 +1,40 @@
 ---
-title: "0xramp: Fiat ↔ Crypto"
+title: "0xramp Docs"
 sidebarTitle: "Home"
-description: "0xramp lets you buy and sell crypto using local peer-to-peer payment rails. Non-custodial. v1.0.0."
+description: "Non-custodial fiat and crypto on/off-ramp for emerging markets. Buy, sell, swap, and pay with local rails."
 ---
 
-0xramp is a non-custodial fiat ↔ crypto on/off-ramp built by **0xramp labs**. Buy assets like ZEC, NEAR, SOL, ETH, and USDC by paying with fiat currencies, or sell crypto and receive fiat directly to your bank account or local payment services (Pix, Pago Movil, Alias, UPI, QRIS) — all without 0xramp ever holding your funds or keys.
+0xramp lets you move between crypto and local fiat using peer-to-peer payment rails -- Pix, UPI, QRIS, Alias, Pago Movil, and more. Your wallet places the order on-chain. 0xramp never holds your funds or keys.
+
+{/* SCREENSHOT: Full app homepage showing the sidebar navigation with Pay, Onramp/Offramp, Swap, Activity tabs and the connected wallet address in the top-right corner. */}
 
 <CardGroup cols={2}>
-  <Card title="What is 0xramp?" icon="circle-info" href="/introduction">
-    Understand what 0xramp is, what it is not, and how the protocol works.
+  <Card title="Buy Crypto" icon="circle-plus" href="/buying">
+    Pay with your local currency and receive crypto in your wallet.
   </Card>
-  <Card title="How It Works" icon="arrows-left-right" href="/how-it-works">
-    Step-by-step: Buy (fiat → crypto) and Sell (crypto → fiat) flows explained.
+  <Card title="Sell Crypto" icon="circle-minus" href="/selling">
+    Send crypto and get paid in local fiat to your bank or payment app.
   </Card>
-  <Card title="Buying Crypto" icon="circle-plus" href="/buying">
-    Pay with fiat and receive crypto in your wallet in ~6 minutes.
+  <Card title="Pay with QR" icon="qrcode" href="/pay-with-qr">
+    Fund a merchant QR payment with ZEC. Pilot feature.
   </Card>
-  <Card title="Selling Crypto" icon="circle-minus" href="/selling">
-    Send crypto and get paid in fiat (like BRL via Pix).
-  </Card>
-  <Card title="Accounts & Identity" icon="user-shield" href="/accounts-identity">
-    P2P.me login vs. external wallets — how identity and custody work.
-  </Card>
-  <Card title="Limits & Verification" icon="gauge" href="/limits-verification">
-    Where your trading limits come from and how to increase them.
-  </Card>
-  <Card title="Fees & Quotes" icon="receipt" href="/fees-quotes">
-    How quotes are calculated and what you pay per trade.
-  </Card>
-  <Card title="FAQ" icon="circle-question" href="/faq">
-    Answers to the most common questions about login, limits, and failed trades.
+  <Card title="SDK for Developers" icon="code" href="/developers/sdk-overview">
+    Embed 0xramp ramps in your wallet app.
   </Card>
 </CardGroup>
 
-## Get started in minutes
+## Get started
 
 <Steps>
   <Step title="Open 0xramp">
-    Go to [0xramp.app](https://www.0xramp.app) in any browser.
+    Go to [0xramp.app](https://www.0xramp.app).
   </Step>
-  <Step title="Connect your account">
-    Sign in with your **P2P.me account** (gas-sponsored smart account, no seed phrase) or connect an external wallet like Rabby or Phantom.
+  <Step title="Connect">
+    Sign in with a **P2P.me account** or connect an external wallet (Rabby, Phantom).
   </Step>
-  <Step title="Enter your order">
-    Choose **Buy** or **Sell**, pick your asset, enter an amount, and review the quote — including all fees — before confirming.
-  </Step>
-  <Step title="Complete payment">
-    For a buy: pay the fiat invoice (for example, Pix QR code) and your crypto arrives in your wallet. For a sell: send the requested crypto and your bank receives the fiat.
+  <Step title="Trade">
+    Choose Buy, Sell, Swap, or Pay with QR. Review the quote, confirm, and complete.
   </Step>
 </Steps>
 
-<Note>
-  **v1.0.0** is live at [0xramp.app](https://www.0xramp.app). Delivery of ZEC is to a transparent address (t-addr) only. Limits and verification are set by P2P.me, not by 0xramp.
-</Note>
+Powered by **P2P.me** and **NEAR Intents**.

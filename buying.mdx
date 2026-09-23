@@ -1,65 +1,39 @@
 ---
-title: "Buy Crypto with Fiat on 0xRamp"
+title: "Buy Crypto with Local Fiat"
 sidebarTitle: "Buying"
-description: "Step-by-step guide to buying ZEC, NEAR, SOL, ETH, BTC, USDC and other assets on 0xramp by paying fiat with fiat via local payment services (Pix, Pago Movil, Alias, UPI, QRIS). Funds arrive in your wallet in less than 6 minutes."
+description: "Pay with your local currency (Pix, UPI, QRIS, Alias, Pago Movil) and receive crypto in your wallet in about 6 minutes."
 ---
 
-The 0xramp buy flow lets you convert fiat currencies into crypto — ZEC, SOL, ETH, USDC, and more — without 0xramp ever holding your funds. You pay via local rails directly from your bank app, and the asset is delivered straight to your wallet address in around 6 minutes. Before you start, make sure you have a connected account or wallet and access to the bank app.
+Buy ZEC, NEAR, SOL, ETH, USDC, and other assets by paying with your local currency. 0xramp never holds your funds.
 
-## Requirements
-
-- A connected **P2P.me smart account** or external wallet (Rabby or Phantom)
-- A **bank account** compatible to the local rail for your country to complete the payment
-- The **destination wallet address** where you want to receive your crypto
+{/* SCREENSHOT: The buy flow with country selector showing Brazil flag, amount input field, and the estimated ZEC receive amount with flow summary showing total cost percentage. */}
 
 ## Steps
 
 <Steps>
   <Step title="Select asset and amount">
-    Open [0xramp](https://www.0xramp.app) and make sure you're on the **Buy** tab. Choose your destination chain (for example, Zcash) and the asset you want to receive (for example, ZEC). Then enter the BRL amount you'd like to spend.
-
-    The minimum order is **R$ 30**. The maximum per order is set by P2P.me based on your on-chain reputation and verification level — you'll see your current limit in the UI.
+    Open [0xramp.app](https://www.0xramp.app) and make sure you're on the **Buy** tab. Choose your destination chain and asset, then enter the amount in your local currency. Minimum and maximum amounts vary by corridor and are shown in the UI.
   </Step>
-
   <Step title="Enter your receiving address">
-    Paste the wallet address where you want your crypto delivered. Take a moment to double-check every character — **blockchain transactions are irreversible**, and sending to the wrong address means permanent loss of funds.
+    Paste the wallet address where you want your crypto delivered. Double-check every character -- blockchain transactions are irreversible.
 
     <Warning>
-      Always double-check the receiving address before confirming. Crypto sent to the wrong address cannot be recovered.
+      For ZEC, use a transparent address (starting with `t`). Shielded addresses are not supported for delivery.
     </Warning>
   </Step>
-
   <Step title="Review the quote">
-    Before you pay, 0xramp shows you a full breakdown of what you're agreeing to:
-
-    - **Fixed fee** — a flat service fee per order
-    - **Asset conversion** — the cost of converting USDC to your target asset via NEAR Intents
-    - **Exchange rate spread** — the difference between the mid-market rate and the rate used for your order
-    - **Estimated amount you'll receive** — the final crypto amount after all fees
-
-    Review the numbers, then tap **Buy** to confirm the order. Confirming places the order on-chain.
+    The app shows a full breakdown before you pay: fixed fee, asset conversion cost, exchange rate spread, and the estimated amount you'll receive. Review and confirm.
   </Step>
-
-  <Step title="Pay via Pix">
-    A Pix QR code and/or copy-paste key will appear on screen. Open your bank app and pay the **exact amount shown** within the time limit displayed.
-
-    - You can scan the QR code or copy the Pix key manually.
-    - Make sure the payment amount matches exactly — partial payments may cause the order to fail.
+  <Step title="Pay via your local rail">
+    A payment code appears (Pix QR, UPI ID, etc.). Pay the **exact amount** from your bank app within the time limit shown. Partial payments may cause the order to fail.
   </Step>
-
-  <Step title="Wait for delivery">
-    Once your Pix payment is matched by P2P.me, the conversion is processed via NEAR Intents and your crypto is sent to the address you provided.
-
-    **Estimated delivery time: ~6 minutes.**
-
-    You can monitor the order status on-screen. No action is needed on your part after payment.
+  <Step title="Receive your crypto">
+    Once your payment is matched, the conversion runs and your crypto arrives at the address you provided. Estimated delivery: around 6 minutes.
   </Step>
 </Steps>
 
 <Note>
-  The quote and delivery time are estimates. The final amount you receive may vary slightly based on market conditions at the time of settlement.
+  The quote is an estimate. The final amount may vary slightly based on market conditions at settlement.
 </Note>
 
-## What if something goes wrong?
-
-If your Pix payment was sent but the crypto never arrived, or if you encounter any other issue with a completed order, visit the [Refunds & Failed Trades](/refunds-failed-trades) page for guidance on next steps.
+If something goes wrong, see [Failed Trades](/failed-trades).

@@ -1,0 +1,50 @@
+---
+title: "Failed Trades and Refunds"
+sidebarTitle: "Failed Trades"
+description: "What to do when an order fails -- common scenarios, how refunds work, and how to contact support."
+---
+
+0xramp is non-custodial -- there is no central fund pool for automatic refunds. Resolution depends on what stage your order reached. **Keep your order ID** (visible in [Activity](/activity)) for any support request.
+
+## Common scenarios
+
+<AccordionGroup>
+  <Accordion title="I paid but didn't receive my crypto">
+    Check your order status in the app -- it updates in real time. Settlement can take up to 6 minutes. If the estimated time has passed with no update, contact [support on Telegram](https://t.me/zeroxramp) with your **order ID** and **payment reference**.
+  </Accordion>
+  <Accordion title="My order expired before I paid">
+    No funds were moved. The order is void. Place a new order and complete payment within the time window shown.
+  </Accordion>
+  <Accordion title="I paid less than the required amount">
+    Do not pay the remaining amount without speaking to support first. A second partial payment will not automatically fix the situation. Contact [support](https://t.me/zeroxramp) with your order ID and payment reference.
+  </Accordion>
+  <Accordion title="I sent crypto but haven't received fiat">
+    Confirm your transaction is fully confirmed on-chain (check a block explorer). Allow the full processing time shown in the app. If fiat still hasn't arrived, contact [support](https://t.me/zeroxramp) with your **order ID** and **on-chain transaction hash**.
+  </Accordion>
+  <Accordion title="I sent the wrong asset or to the wrong address">
+    Blockchain transactions are irreversible. If you sent to an address you don't control, those funds cannot be recovered. If you sent the wrong asset to the 0xramp deposit address, contact [support](https://t.me/zeroxramp) immediately with your order ID and transaction hash. Do not place additional orders until resolved.
+  </Accordion>
+</AccordionGroup>
+
+## How refunds work
+
+- **Pre-escrow** (before crypto was locked): nothing to refund. Place a new order.
+- **In-escrow** (crypto locked, payment not matched): P2P.me smart contracts must release the escrow. Not instant.
+- **Post-conversion** (assets already converted via NEAR Intents): handled case-by-case.
+
+When requesting a refund, provide:
+- Your **order ID**
+- A **wallet address you control** (not an exchange deposit address)
+- All relevant **transaction references**
+
+<Warning>
+  Do not expect instant or automatic refunds. The non-custodial design means resolution takes time and depends on on-chain state.
+</Warning>
+
+## Contact support
+
+Reach out via [Telegram](https://t.me/zeroxramp). Have ready:
+- Order ID (from the [Activity](/activity) page)
+- Wallet address associated with the order
+- Payment reference or on-chain transaction hash
+- A clear description of what happened

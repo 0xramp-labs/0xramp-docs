@@ -1,53 +1,31 @@
 ---
-title: "0xramp Fees and Quotes: Full Breakdown Before You Confirm"
+title: "Fees and Quotes"
 sidebarTitle: "Fees & Quotes"
-description: "How 0xramp calculates order quotes and what fees apply — fixed fee, conversion fee, and spread — all shown before you confirm a trade."
+description: "How 0xramp calculates quotes and what fees apply -- all shown before you confirm."
 ---
 
-Before you confirm any order on 0xramp, the app shows you a complete fee breakdown — no surprises at checkout. The quote displayed is an **estimate** based on current market conditions; the final amount you receive is determined at on-chain settlement and may vary slightly. There are no hidden charges: everything you pay is visible in the quote screen.
+0xramp charges **zero product fees**. All fees come from the underlying integrations (P2P.me and NEAR Intents) and are shown in full before you confirm any order.
 
-<Note>
-  0xramp currently takes **ZERO** fees from the operations. All existing fees are related to the integrations (P2P.me and NEAR Intents).
-</Note>
+{/* SCREENSHOT: The flow summary expanded view showing Fixed fee, Asset conversion, Exchange rate spread, and Total flow cost with the percentage over market price. */}
 
-## What's in the Quote
+## Fee components
 
-Every 0xramp order includes up to three fee components:
+Every order includes up to three fee components:
 
-- **Fixed fee**: A small flat amount charged on every order. On low-value orders this has the most noticeable impact on the total percentage cost, since it doesn't scale with order size.
-- **Asset conversion fee**: The cost of routing your funds through NEAR Intents to convert from USDC to your target asset (for example, ZEC or SOL). This reflects the swap cost on the underlying liquidity layer.
-- **Exchange rate spread**: The difference between the mid-market exchange rate and the rate used in your trade. This is how market makers on the P2P.me network are compensated for providing liquidity.
+- **Fixed fee** -- a small flat amount per order. Most noticeable on small orders since it doesn't scale with size.
+- **Asset conversion** -- the cost of routing through NEAR Intents to convert USDC to your target asset (or vice versa).
+- **Exchange rate spread** -- the difference between the mid-market rate and the rate used in your trade. This compensates P2P.me merchants for providing liquidity.
 
-<Tip>
-  Larger orders generally have a lower fee percentage because the fixed fee is spread over a bigger amount.
-</Tip>
+Larger orders generally have a lower fee percentage because the fixed fee is spread over a bigger amount.
 
-## Example Breakdown
+## Quotes are estimates
 
-The following illustrates what a small buy order might look like in the app. This example is for illustration only — your actual fees depend on order size, asset, and live market conditions at the time of your trade.
+The quote shown is calculated from market conditions at the moment you enter the order. Between quote and on-chain settlement, prices can move.
 
-| Component | Amount (BRL) |
-|---|---|
-| Fixed fee | R$0.14 |
-| Asset conversion fee | R$0.28 |
-| Exchange rate spread | R$1.65 |
-| **Total fees** | **R$2.07** |
-| **You receive (est.)** | **~0.0110 ZEC** |
+- The **estimated amount** is what you'd receive if the rate holds.
+- The **actual amount** is determined at settlement.
 
-*Example based on a R$30 ZEC buy order. At small order sizes, total fees represent a higher percentage of the order (roughly 6–7%) because of the fixed fee component. As your order size grows, the percentage cost decreases.*
-
-<Note>
-  This is an illustrative example only. The actual fee breakdown for your order is always shown in the app before you confirm.
-</Note>
-
-## Quotes Are Estimates
-
-The quote shown in 0xramp is calculated from market conditions at the moment you enter the order. Between the time you see the quote and the time your transaction settles on-chain, prices can move.
-
-- The **estimated amount** shown is what you'd receive if the rate holds exactly.
-- The **actual amount received** is determined at settlement, once your payment is confirmed and the on-chain swap executes.
-
-For most orders, the difference is small. However, during periods of high market volatility, the final amount may differ more noticeably from the quoted figure. 0xramp does not guarantee a fixed price between quote and settlement.
+For most orders the difference is small. During high volatility it may be more noticeable. 0xramp does not guarantee a fixed price between quote and settlement.
 
 <Note>
   There are no hidden fees. Everything you pay is shown in the quote before you confirm.

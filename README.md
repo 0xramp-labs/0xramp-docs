@@ -1,32 +1,33 @@
 # 0xramp docs
 
-Official documentation for **[0xramp.app](https://www.0xramp.app)** — the non-custodial fiat ↔ crypto on/off-ramp by **[0xramp labs](https://github.com/0xramp-labs)**.
+Official documentation for **[0xramp.app](https://www.0xramp.app)** -- the non-custodial fiat and crypto on/off-ramp by **[0xramp labs](https://github.com/0xramp-labs)**.
 
-This repository is the source of the public docs site (Mintlify). Content is mostly **user-facing**, with a smaller **developers** section.
+This repository is the source of the public docs site (Mintlify). Two audiences: **users** (crypto users in emerging markets) and **developers** (SDK integrators building wallet apps).
 
 ## What 0xramp is
 
-0xramp lets users buy and sell crypto against local fiat rails such as **BRL via Pix**.
+0xramp lets users buy and sell crypto against local fiat rails: Pix (Brazil), UPI (India), QRIS (Indonesia), Alias (Argentina), Pago Movil (Venezuela), and more.
 
 | Piece | Role |
-| -------- | ------ |
+|-------|------|
 | **0xramp** | Product UX, session tracking, status experience |
-| **P2P.me** | Identity, reputation, limits, verification, Pix matching, USDC escrow on Base |
-| **NEAR Intents** | Conversion between Base USDC and the user’s asset |
+| **P2P.me** | Identity, reputation, limits, verification, merchant matching, USDC escrow on Base |
+| **NEAR Intents** | Conversion between Base USDC and the user's asset |
 
-Orders are placed **on-chain** by the user’s P2P.me smart account or a connected wallet (e.g. Rabby, Phantom). 0xramp does **not** hold user keys or bank credentials.
+Orders are placed **on-chain** by the user's P2P.me smart account or a connected wallet (Rabby, Phantom). 0xramp does **not** hold user keys or bank credentials.
 
 Live app: [https://www.0xramp.app](https://www.0xramp.app)
 
 ## Docs map
 
-| Area | Pages (examples) |
-| ------ | ------------------ |
-| Product | Introduction, How it works, Buying, Selling |
-| Account | Accounts & identity, Limits & verification |
-| Money path | Fees & quotes, Refunds & failed trades, Supported assets |
-| Trust | Security & trust, FAQ |
-| Builders | `developers/` (architecture, contribution notes) |
+| Area | Pages |
+|------|-------|
+| Introduction | What is 0xramp, How It Works |
+| Using 0xramp | Buy, Sell, Pay with QR, Swap, Supported Assets |
+| Account | Getting Started, Limits & Verification, Referrals, Activity |
+| Fees | Fees & Quotes |
+| Safety & Support | Failed Trades, Privacy, FAQ, Donation, Contact |
+| SDK | Overview, Quickstart, Integration Guide, API Reference, Recovery & Errors, Readiness Checklist, Changelog |
 
 Navigation and site config live in [`docs.json`](./docs.json).
 
@@ -35,29 +36,23 @@ Navigation and site config live in [`docs.json`](./docs.json).
 Requires Node.js 20+.
 
 ```bash
-# Install Mintlify CLI (once)
 npm i -g mint
-
-# From this repo
 mint dev
 ```
 
-Open the URL the CLI prints (usually <http://localhost:3000>).
-Useful commands:
+Open the URL the CLI prints (usually http://localhost:3000).
 
-```
+```bash
 mint broken-links   # optional link check
-mint dev            # local preview
 ```
 
 ## Publishing
 
-The site deploys automatically when changes land on the configured branch (typically main), via the Mintlify GitHub App connected to this repository.
+The site deploys automatically when changes land on main, via the Mintlify GitHub App.
 
-Push or merge to main → production docs update
-PRs can get preview deployments when the app is configured
+Push or merge to main -> production docs update.
 
-Dashboard: <https://app.mintlify.com>
+Dashboard: https://app.mintlify.com
 
 ## Contributing
 
@@ -69,17 +64,20 @@ Dashboard: <https://app.mintlify.com>
 ## Guidelines
 
 - Prefer short pages and clear language
-- Do not claim 0xramp custodians funds, runs KYC itself, or sets limits independently of P2P.me
+- Do not claim 0xramp custodies funds, runs KYC itself, or sets limits independently of P2P.me
 - Do not document secrets, private admin APIs, or production credentials
-- Mark beta / partner-gated behavior explicitly when it is not always on
+- Mark pilot features explicitly (e.g., Pay with QR)
+- Corridor and asset lists must match the live app -- when in doubt, trust the app
 
 App source (private): 0xramp-labs/0xramp-app
+SDK source (public): [0xramp-labs/0xramp-sdk](https://github.com/0xramp-labs/0xramp-sdk)
 
 ## Related
 
-- App: 0xramp.app
-- Org: github.com/0xramp-labs
-- Mintlify: mintlify.com/docs
+- App: [0xramp.app](https://www.0xramp.app)
+- Org: [github.com/0xramp-labs](https://github.com/0xramp-labs)
+- Telegram: [t.me/zeroxramp](https://t.me/zeroxramp)
+- Mintlify: [mintlify.com/docs](https://mintlify.com/docs)
 
 ## License
 

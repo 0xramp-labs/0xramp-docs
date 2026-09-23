@@ -1,0 +1,77 @@
+---
+title: "SDK Recovery and Errors"
+sidebarTitle: "Recovery & Errors"
+description: "Handle pending sends, lost responses, app restarts, return deep-links, and error codes in your SDK integration."
+---
+
+## Pending sends
+
+A pending send means **reconcile, do not send again** -- including after timeout, closure, or app restart. An expired session URL is not permission to resend.
+
+Pending reasons:
+
+| Reason | Meaning |
+|--------|---------|
+| `in-progress` | Wallet work still running |
+| `broadcast-unknown` | Broadcast status unclear |
+| `multiple-transactions` | Wallet returned multiple txids; deposit not identified |
+| `storage-unavailable` | Journal could not persist |
+
+Once wallet history proves the deposit transaction:
+
+```ts
+await bridge.sendZecSendResult(requestId, verifiedTxid);
+```
+
+Only after proving no broadcast occurred:
+
+```ts
+await bridge.sendZecSendCancel(requestId, reason);
+```
+
+Both methods apply only to a request this bridge instance received (`ConfigError` otherwise) and persist before replying.
+
+## Lost create response
+
+A timeout may follow a successful POST. Keep the persisted creation intent and reconcile with 0xramp before another create. `partnerSessionId` is public correlation data and cannot recover anything.
+
+If your deployment supports idempotent creation: generate 32 random bytes, base64url-encode (43 chars), persist `idempotencyKey` with the complete create input before sending. An explicit recovery must reuse the identical key and body.
+
+## Restore on restart
+
+Persist the full `RampSession` securely. On restart:
+
+```ts
+const session = ramp.restoreSession(await sessionVault.load());
+await ramp.getStatus(session.sessionRef);
+```
+
+Then attach a fresh bridge bound to the restored `sessionRef` before loading the pane again. If the saved intent says "creating" (lost create response), block and reconcile -- do not re-POST.
+
+## Return deep-links
+
+Validate scheme/host yourself, match `sessionRef` against your saved session, then parse:
+
+```ts
+const parsed = ramp.parseReturnUrl(url);
+```
+
+The parsed outcome never proves payment -- any app on the device can open the scheme. Reconcile via `getStatus` and your chain view. Register and route your own scheme; do not assume any wallet already supports one.
+
+## Error handling
+
+Branch on `error.code`, never on message text. See the full error table in [API Reference](/developers/sdk-api-reference).
+
+Key rules:
+
+- There are **no automatic retries** anywhere in the SDK.
+- A timed-out create may have succeeded server-side -- reconcile, then optionally reuse a persisted `idempotencyKey`.
+- Do not silently fall back to the sandbox after a live error.
+- Never erase an unresolved journal entry or an expired session to bypass recovery.
+
+## Bridge enforcement
+
+- Unknown envelope `v` closes the bridge (`UnsupportedProtocolVersion`).
+- Schema-invalid and session-mismatched messages are dropped and counted (`bridge.getStats()`).
+- Same-bridge request-ID replays are rejected; across-bridge replays come from the durable journal.
+- `psp/close` closes the bridge before invoking `onClose`. Queued sends do not start after close; in-flight wallet work receives an abort signal.

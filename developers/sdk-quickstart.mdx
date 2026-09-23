@@ -1,0 +1,91 @@
+---
+title: "SDK Quickstart"
+sidebarTitle: "Quickstart"
+description: "Install the SDK, create a session, attach the bridge, handle a ZEC send, and check status."
+---
+
+## Install
+
+The SDK is not on npm yet (v0 pilot). Install from the repository:
+
+```bash
+git clone https://github.com/0xramp-labs/0xramp-sdk.git
+cd 0xramp-sdk
+npm ci --ignore-scripts && npm run build
+```
+
+Then link from your app:
+
+```json
+{ "@0xramp/sdk": "file:<path-to-repo>" }
+```
+
+When published to npm, you'll be able to use `npm install @0xramp/sdk`.
+
+## Quickstart
+
+```ts
+import { createRampClient, createZecSendStore } from "@0xramp/sdk";
+
+// One durable, secure storage namespace per unlocked wallet.
+const sendStore = createZecSendStore({
+  get: key => secureWalletStorage.get(key),
+  set: (key, value) => secureWalletStorage.set(key, value),
+});
+
+const ramp = createRampClient({
+  environment: "production",
+  partnerId: "<issued-by-0xramp>",
+  sendStore,
+});
+
+// 1 -- open a session
+await secureSessionStorage.saveCreationIntent(partnerSessionId);
+const session = await ramp.createSession({
+  direction: "sell",
+  asset: "ZEC",
+  fiat: "BRL",
+  partnerSessionId,
+});
+await secureSessionStorage.save(session);
+
+// 2 -- attach before loading the pane
+const bridge = ramp.attachPaneBridge({
+  sessionRef: session.sessionRef,
+  transport: myTransport,
+  onZecSendRequest: (request, { signal }) =>
+    myWallet.confirmAndSend(request, { signal }),
+  onSendRecoveryRequired: showRecoveryScreen,
+  onResult: () => { void refreshAuthoritativeStatus(); },
+  onClose: teardownPane,
+});
+
+// 3 -- load the pane (check origin first)
+if (!ramp.isAllowedPaneUrl(session.sessionUrl)) throw new Error("origin refused");
+loadWebView(session.sessionUrl);
+
+// 4 -- authoritative status
+const status = await ramp.getStatus(session.sessionRef);
+
+// 5 -- close detaches listeners
+bridge.close();
+```
+
+`myWallet`, storage, and UI methods above are partner-owned ports. An approved send returns `{ txid }`; use `{ cancel: true, reason }` only when no broadcast occurred. Errors, ambiguous multiple transaction IDs, and interrupted sends stay pending for reconciliation. Never retry a send or session-creation POST blindly.
+
+## What you need from 0xramp
+
+Before starting, contact 0xramp to get:
+
+- A **partner ID** (public identifier)
+- At least one **enabled corridor** (e.g., BRL)
+- The **API origin** and exact **pane origins**
+
+Reach out via [Telegram](https://t.me/zeroxramp) or open an issue on [GitHub](https://github.com/0xramp-labs/0xramp-sdk).
+
+## Next steps
+
+- [Integration Guide](/developers/sdk-integration-guide) -- full SELL happy path, environment config, durable journal, transport implementation.
+- [API Reference](/developers/sdk-api-reference) -- all functions, types, and bridge events.
+- [Recovery & Errors](/developers/sdk-recovery-errors) -- pending sends, error codes, reconciliation.
+- [Readiness Checklist](/developers/sdk-readiness-checklist) -- go-live gates before enabling a live wallet adapter.

@@ -1,0 +1,40 @@
+---
+title: "Swap Assets"
+sidebarTitle: "Swap"
+description: "Swap between any supported assets across chains using NEAR Intents. No fiat involved."
+---
+
+The Swap panel lets you exchange assets across chains using **NEAR Intents** directly. This is separate from the fiat ramp -- no P2P.me merchant or local currency is involved.
+
+{/* SCREENSHOT: The Swap page showing SEND section (USDC on Base) and RECEIVE section (ZEC on Zcash) with destination address field, and the SWAPS history below showing past swaps with status badges (REFUNDED, DELIVERED). */}
+
+## Steps
+
+<Steps>
+  <Step title="Select what you send">
+    Choose the asset and origin chain (e.g., USDC on Base). Your balance is shown if connected.
+  </Step>
+  <Step title="Select what you receive">
+    Choose the destination asset and chain (e.g., ZEC on Zcash).
+  </Step>
+  <Step title="Enter destination address">
+    Paste the wallet address where you want to receive the output asset. Transactions are irreversible.
+  </Step>
+  <Step title="Confirm the swap">
+    Review the quote and confirm. The swap executes through NEAR Intents.
+  </Step>
+</Steps>
+
+## Swap history
+
+Past swaps appear below the form with status badges:
+
+- **Delivered** -- swap completed successfully.
+- **Refunded** -- swap failed and funds were returned.
+- **Closed** -- swap expired or was cancelled.
+
+Each entry links to a block explorer for verification.
+
+<Note>
+  Swaps use NEAR Intents directly from your browser. The 0xramp server proxies quotes and status but does not custody funds.
+</Note>

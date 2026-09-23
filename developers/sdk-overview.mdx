@@ -1,0 +1,48 @@
+---
+title: "SDK Overview"
+sidebarTitle: "Overview"
+description: "Embed 0xramp ZEC and local-fiat ramps in your wallet app. Your wallet signs only ZEC sends; everything else runs inside 0xramp.app."
+---
+
+`@0xramp/sdk` is a TypeScript SDK for wallet apps that want to offer 0xramp ZEC and local-fiat ramps (Pix, UPI, QRIS, Alias, Pago Movil) by hosting **0xramp.app** in an embedded WebView.
+
+Your wallet signs **only** ZEC sends from its own wallet core. Everything else -- identity (passkeys), the Base account, P2P.me orders, quotes, limits, fraud screening, fiat payout -- runs inside 0xramp.app, unchanged.
+
+<Warning>
+  The SDK is under active development (v0 pilot). The public API and wire format are additive-only until the protocol freezes at 0.1.0. Develop against the sandbox pane and golden fixtures -- expect changes.
+</Warning>
+
+## How it works
+
+```
+Your wallet app                 0xramp.app (pane, in WebView)        0xramp hosted API
++-------------------------+     +-------------------------------+    +------------------+
+| SDK: createSession -----+---->| partner landing route         |<-->| partner sessions |
+| SDK: bridge  <----------+----+| passkeys . Base account .     |    | (create/status)  |
+|  onZecSendRequest ------+----+| P2P.me orders . quotes .      |    | rail sessions .  |
+|   -> wallet signs ZEC   |     | limits . fraud . fiat payout  |    | read-only recon. |
++-------------------------+     +-------------------------------+    +------------------+
+```
+
+- **SELL (ZEC to fiat):** the pane reserves a NEAR Intents deposit route and asks your app to send the exact ZEC amount to a transparent deposit address. Your wallet signs that send -- the only signature you ever make.
+- **BUY (fiat to ZEC):** the user pays a merchant on the fiat rail from their bank app; ZEC lands on the transparent address you provided.
+- Bridge results are advisory; authoritative state is the ticketed status endpoint plus your own view of the Zcash chain.
+
+## What the SDK never does
+
+- Signs or moves funds
+- Holds keys or custody
+- Stores or transits payout keys
+- Invents limits, corridors, or catalogs
+- Hides origins
+- Trusts client-declared completion for irreversible decisions
+
+## Attribution
+
+Integrations must display **"Powered by 0xramp . P2P.me"** at the ramp entry point.
+
+## Repository
+
+[github.com/0xramp-labs/0xramp-sdk](https://github.com/0xramp-labs/0xramp-sdk)
+
+Pure ESM, strictly typed, React-free. Targets React Native, Electron, and browsers. Zero runtime dependencies besides schema validation.

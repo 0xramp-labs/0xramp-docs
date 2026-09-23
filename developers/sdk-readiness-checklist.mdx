@@ -1,0 +1,60 @@
+---
+title: "SDK Readiness Checklist"
+sidebarTitle: "Readiness Checklist"
+description: "Local test checklist and go-live gates before enabling a live wallet adapter in your SDK integration."
+---
+
+## Local test checklist (sandbox)
+
+The sandbox pane (`sandbox/sandbox-pane.html`) supplies synthetic browser and RN message paths with zero 0xramp access. Both examples run against it.
+
+```bash
+npm ci --ignore-scripts
+npm run typecheck
+npm test
+npm run test:partner    # opt-in host lifecycle simulation
+npm run build
+```
+
+- [ ] Sandbox loads; `psp/ready` fires and `onReady` marks it.
+- [ ] Simulated send: confirm returns `{ txid }` -> result reply; decline -> cancel reply.
+- [ ] Simulated pending: return `{ txids: [a, b] }` -> pending reply; recovery screen shows.
+- [ ] Kill the app mid-claim; restart -> journal replays pending, wallet not re-invoked.
+- [ ] `onProtocolError` closes the bridge on a garbage message.
+- [ ] RN: navigation lock rejects off-origin loads; `onMessage` validates sender URL.
+- [ ] Electron: IPC sender/frame/URL verification rejects spoofed messages.
+- [ ] Attribution string renders at the ramp entry point.
+
+This covers host-controller simulation only -- not device or live-API evidence.
+
+## Go-live checklist
+
+Required before enabling a live wallet adapter:
+
+- [ ] 0xramp issued the partner ID, exact API/pane origins, and enabled corridor.
+- [ ] `POST /api/partner/v0/sessions` returns a valid, loadable session and the ticketed `GET .../sessions/:sessionRef` works for it. A homepage, OPTIONS response, or local mock is insufficient.
+- [ ] The deployed pane passes the shared PSP-v1 fixtures (pending and multi-transaction results included) and preserves request IDs across reconnects.
+- [ ] Lost create responses have a server-supported reconciliation procedure.
+- [ ] Native adapter shows amount, destination, and fee; uses integer units; checks balance; respects cancellation before signing; associates requests with wallet history.
+- [ ] Wallet-scoped journal/session storage survives process death; cross-process claims are atomic; backup/reinstall/unavailable-storage/large-record cases tested.
+- [ ] Adapter preserves all returned txids and identifies the deposit by outputs; unknown results never auto-resend.
+- [ ] Real iOS and Android devices pass initial-load/redirect/popup origin locks, passkeys, foreground/background, registered return links, and agreed bank/browser handoff. Native fetch refuses API redirects.
+- [ ] A controlled real session proves both Zcash deposit and authoritative fiat settlement, including failure, expiry/late deposit, and interrupted return.
+- [ ] Protocol/fixture CODEOWNERS approved the wire surface before merge.
+
+## Evidence boundary
+
+| Covered in repository tests | Evidence boundary |
+|---|---|
+| Native JSON transport on window/document and browser object transport | Sandbox script, not a native WebView binary |
+| New session replaces old bridge, close/unmount, late create response | Host-controller simulation |
+| Duplicate requests, restart after broadcast, pending claims, storage failures | Durable-journal and bridge regression tests |
+| Multiple transaction IDs and ambiguous broadcast failures | Synthetic wallet outputs |
+| Exact custom origins, invalid ready binding, restored tickets, network deadlines | SDK unit tests |
+| Advisory settlement/deep-link claims trigger ticketed status lookup | Mocked authoritative API |
+
+## What the SDK alone cannot verify
+
+No code change in this SDK alone can verify a partner's wallet signing adapter, hosted passkeys, provider authorization, or a bank payout. The RN example deliberately returns "wallet adapter not configured" in live mode. Fake transaction IDs are confined to the local sandbox. The Electron example is local sandbox only.
+
+Never remove a pending journal entry or an expired session to bypass recovery.

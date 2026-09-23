@@ -1,46 +1,36 @@
 ---
-title: "Understanding Trading Limits and Verification on 0xramp"
+title: "Limits and Verification"
 sidebarTitle: "Limits & Verification"
-description: "How trading limits work on 0xramp, where they come from, and how to increase them by completing ZK-KYC verification through P2P.me."
+description: "Where your trading limits come from, how to check them, and how to increase them."
 ---
 
-Trading limits on 0xramp are not set by 0xramp — they come from your **on-chain reputation score on [P2P.me](https://p2p.me)**, the underlying liquidity protocol that powers the exchange. This means your limits are portable: they apply across every app built on P2P.me, and they grow as you build a verified track record.
+Trading limits on 0xramp come from your **on-chain reputation on P2P.me** -- not from 0xramp. They are portable across every app built on P2P.me.
 
-## Default Limits for New Accounts
+{/* SCREENSHOT: The Account and Limits page showing P2P.me account on Base, $P2P token balance, Capacity Per Transaction (Sell US$400 / Buy US$400), and the 'Verify an account' button. */}
 
-When you first use 0xramp, your account starts with conservative limits:
+## Default limits
 
-- **Buy limit**: zero until verification is completed or a sufficient order history is established.
-- **Sell limit**: a modest starting allowance is available from the start — the exact figures are set by P2P.me and are shown in the in-app **Limits** page.
+New accounts start with conservative limits:
 
-<Tip>
-  Check the in-app **Limits** page for your current per-order and daily limits — they update in real time as your reputation changes.
-</Tip>
+- **Buy:** zero until verification is completed or order history is established.
+- **Sell:** a modest starting allowance, shown in the app's **Account and limits** page.
 
-These figures are set by P2P.me, not by 0xramp, and can change as the protocol evolves. Always refer to the **Limits** section inside the 0xramp app for the most accurate, up-to-date numbers.
+Exact figures are set by P2P.me and vary by corridor. Always check the in-app **Account and limits** page for your current numbers.
 
-## How to Increase Your Limits
+## How to increase limits
 
 <Steps>
-  <Step title="Open the Limits page">
-    Inside the [0xramp app](https://www.0xramp.app), navigate to the **Limits** section. You'll see your current per-order and daily limits, along with options to increase them.
+  <Step title="Open Account and limits">
+    In [0xramp.app](https://www.0xramp.app), go to **Account and limits** in the sidebar.
   </Step>
-  <Step title="Complete ZK-KYC verification">
-    P2P.me offers **zero-knowledge KYC (ZK-KYC)** — a privacy-preserving identity verification process. Completing it proves that you meet the required identity standards without sharing your raw personal data with 0xramp or any other third party. This is the fastest way to unlock higher trading limits.
+  <Step title="Verify your account">
+    Click **Verify an account**. P2P.me offers ZK-KYC (zero-knowledge identity verification) -- it proves you meet identity standards without sharing your raw personal data with 0xramp or anyone else.
   </Step>
   <Step title="Build order history">
-    Completing successful trades contributes positively to your on-chain reputation over time. Even after verification, a growing trade history may further increase your limits as P2P.me's reputation system recognizes your activity.
+    Successful trades contribute to your on-chain reputation over time and may further increase your limits.
   </Step>
 </Steps>
 
-## What ZK-KYC Means
-
-**ZK-KYC** stands for Zero-Knowledge Know Your Customer. It's an identity verification approach that uses cryptographic proofs to confirm that you meet an identity requirement — without ever revealing the underlying data.
-
-In plain terms: P2P.me can verify that you are who you say you are, without 0xramp (or anyone else) ever seeing your passport number, date of birth, or any other personal details. The proof is generated and verified on-chain. Your data stays with you.
-
-This is different from traditional KYC, where a copy of your documents is submitted to and stored by a centralized service. With ZK-KYC, verification happens without data exposure.
-
 <Note>
-  0xramp does not set or adjust your limits directly. If your limit is blocking a trade, complete verification through P2P.me in the app.
+  0xramp cannot increase your limits. If your limit is blocking a trade, complete verification through P2P.me in the app.
 </Note>

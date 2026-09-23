@@ -1,156 +1,93 @@
 ---
-title: "Frequently Asked Questions About 0xramp — Help and Support"
+title: "Frequently Asked Questions"
 sidebarTitle: "FAQ"
-description: "Answers to common questions about logging in, wallet connect, trading limits, failed trades, and how 0xramp's non-custodial model works."
+description: "Answers to common questions about 0xramp -- login, limits, privacy, referrals, and failed trades."
 ---
 
-This FAQ covers the most common questions users have about 0xramp. If you are dealing with a specific order issue — a failed trade, a missing payment, or an unexpected status — keep your **order ID** (visible in the app) and contact support with as many relevant details as possible.
+{/* SCREENSHOT: The in-app Help page showing the built-in FAQ with 'Why do I need to log in?', 'Why is my buy or sell limit low?', and 'My trade failed or is stuck' sections, plus the 'Support on Telegram' button. */}
 
-## Login & Wallets
+## General
 
 <AccordionGroup>
-  <Accordion title="What is a P2P.me account?">
-    A P2P.me account is a **gas-sponsored smart contract wallet** managed by the P2P.me protocol. It is designed to be beginner-friendly:
-
-    - **No seed phrase required** — account access is managed through P2P.me's identity system, not a traditional seed phrase.
-    - **Gas fees are sponsored** — you do not need to hold native tokens to pay for transactions.
-    - **Identity is managed by P2P.me** — your on-chain reputation, verification status, and trading limits are all tied to your P2P.me account.
-
-    This option is ideal for users who are new to crypto or prefer not to manage their own wallet infrastructure. Note that if you lose access to your P2P.me account, recovery is handled by P2P.me — not by 0xramp.
+  <Accordion title="Is 0xramp a bank?">
+    No. 0xramp is a non-custodial protocol interface. It does not hold deposits, offer interest, issue credit, or provide banking services. Funds flow through on-chain smart contracts, not through 0xramp.
   </Accordion>
+  <Accordion title="Is 0xramp the same as P2P.me?">
+    No. P2P.me is the infrastructure layer (identity, KYC, merchant matching, USDC escrow on Base). 0xramp is the product built on top of it. When you use 0xramp, you interact with P2P.me infrastructure under the hood.
+  </Accordion>
+  <Accordion title="What countries are supported?">
+    Stable: BRL (Pix), INR (UPI), IDR (QRIS), ARS (Alias), VES (Pago Movil). Alpha: COP, NGN, ECU, BOB, CUP, PEN, PHP. See [Supported Assets](/supported-assets) for the full table.
+  </Accordion>
+  <Accordion title="Does 0xramp charge fees?">
+    No. 0xramp charges zero product fees. All fees come from P2P.me and NEAR Intents and are shown in the quote before you confirm. See [Fees & Quotes](/fees-quotes).
+  </Accordion>
+</AccordionGroup>
 
+## Login and wallets
+
+<AccordionGroup>
+  <Accordion title="Why do I need to log in?">
+    Every order is placed on-chain and signed by your account. That same address holds your P2P.me reputation and trade limits. You sign in with the P2P.me account (smart account): gas-free, no manual signatures. 0xramp never holds your keys or payment details.
+  </Accordion>
   <Accordion title="Can I use my own wallet?">
-    Yes. 0xramp supports self-custody wallets for users who prefer full control over their keys:
-
-    - **Rabby** — for EVM-compatible wallets
-    - **Phantom** — for Solana wallets
-
-    To connect your own wallet, select the relevant option on the login screen and follow the connection prompt in your wallet application. Your keys remain entirely in your wallet — 0xramp only reads your public address.
+    Yes. Rabby (EVM chains) and Phantom (Solana) are supported. Your keys stay in your wallet -- 0xramp only reads your public address. See [Getting Started](/getting-started).
   </Accordion>
-
   <Accordion title="Does 0xramp store my private key?">
-    **Never.** 0xramp does not have access to your private key or seed phrase at any point. Your keys remain in your own wallet (or, for P2P.me accounts, within P2P.me's smart account infrastructure).
-
-    0xramp's backend only reads your public wallet address — the information that is already publicly visible on the blockchain. Signing transactions always happens in your wallet, not on 0xramp's servers.
+    Never. Your keys remain in your wallet or P2P.me's smart account infrastructure. 0xramp only reads your public address.
   </Accordion>
-
-  <Accordion title="What happens if I lose access to my P2P.me account?">
-    Account recovery for P2P.me accounts is handled by **P2P.me**, not by 0xramp. If you lose access:
-
-    1. Contact P2P.me support directly through their official channels.
-    2. 0xramp cannot reset, recover, or override access to a P2P.me account — this is by design to protect user security.
-
-    If you prefer full control over your own account recovery, consider using a self-custody wallet (Rabby or Phantom) instead.
+  <Accordion title="What if I lose access to my P2P.me account?">
+    Account recovery is handled by P2P.me, not by 0xramp. Contact P2P.me support directly. If you prefer full control over recovery, use a self-custody wallet (Rabby or Phantom).
   </Accordion>
 </AccordionGroup>
 
 ## Limits
 
 <AccordionGroup>
-  <Accordion title="Why is my buy limit zero?">
-    New P2P.me accounts start with a **zero buy limit** until identity verification is completed. This is a regulatory and fraud-prevention requirement built into the P2P.me protocol.
-
-    To start trading, you need to complete the ZK-KYC (zero-knowledge identity verification) process through P2P.me. You can initiate this from the **Limits** section in the app. Until verification is complete, buy orders cannot be placed.
+  <Accordion title="Why is my buy or sell limit low?">
+    Limits come from P2P.me's on-chain reputation for the account you connected, not from 0xramp. New accounts often start with a small sell allowance and a buy limit of zero until verification or history improves. Open **Account and limits** in the app to see your current caps. See [Limits & Verification](/limits-verification).
   </Accordion>
-
-  <Accordion title="How do I increase my limits?">
-    Trading limits are tied to your **on-chain reputation score** managed by P2P.me. To increase your limits:
-
-    1. Open the app and navigate to the **Limits** section.
-    2. Follow the verification steps provided through P2P.me's ZK-KYC process.
-    3. As your on-chain reputation increases (through verification tiers), your available limits will increase accordingly.
-
-    Limit increases take effect once P2P.me processes your verification — 0xramp reflects whatever limit P2P.me assigns to your account.
-  </Accordion>
-
-  <Accordion title="Who sets my trading limits?">
-    **P2P.me** sets your trading limits based on your on-chain reputation and the verification level you have completed. 0xramp displays these limits in the app but cannot override, adjust, or independently increase them.
-
-    If you believe your limits are incorrect or you have completed verification but limits have not updated, contact P2P.me support through the Limits section of the app.
-  </Accordion>
-
-  <Accordion title="Are limits the same across all apps that use P2P.me?">
-    Yes. Your P2P.me reputation and the associated trading limits are **tied to your wallet address**, not to any specific app. Because 0xramp and other P2P.me-enabled products all read the same on-chain reputation data, the limits you earn through verification follow you across the ecosystem.
+  <Accordion title="Are limits the same across all P2P.me apps?">
+    Yes. Your P2P.me reputation and limits are tied to your wallet address, not to any specific app. They follow you across the ecosystem.
   </Accordion>
 </AccordionGroup>
 
-## Failed Trades & Refunds
+## Referrals
 
 <AccordionGroup>
-  <Accordion title="What should I do if my order fails?">
-    Stay calm and follow these steps:
-
-    1. **Keep your order ID** — it is visible on the order detail screen in the app. This is the single most important piece of information for any support request.
-    2. **Check the in-app order status** — it updates in real time and may already indicate what happened.
-    3. **Note any relevant references** — your Pix transaction reference (from your banking app) for buy orders, or your on-chain transaction hash for sell orders.
-    4. **Contact support** with your order ID and all relevant details.
-
-    Do not attempt to re-send a payment or repeat the transaction before speaking to support, as this can complicate the investigation.
+  <Accordion title="How do referrals work?">
+    Generate a link, share it, and earn a percentage of protocol fees from your invitees' orders. Rewards accrue in USDC on-chain. See [Referrals](/referrals) for the full guide.
   </Accordion>
+  <Accordion title="Does generating a referral link cost anything?">
+    No. It's an off-chain signature -- free, no gas.
+  </Accordion>
+  <Accordion title="I got 'your account already has a registered referrer'">
+    Each account can only be referred once, permanently. This cannot be changed.
+  </Accordion>
+</AccordionGroup>
 
+## Failed trades
+
+<AccordionGroup>
+  <Accordion title="My trade failed or is stuck. What happens to my money?">
+    0xramp does not take custody of your funds. If a leg cannot complete, assets are returned to the refund address you set when you started the order (or released according to the on-chain / NEAR status). See [Failed Trades](/failed-trades) for step-by-step guidance.
+  </Accordion>
   <Accordion title="Will I get an automatic refund?">
-    **Refunds are not automatic.** Because 0xramp is non-custodial, there is no central fund pool from which instant refunds can be issued. The resolution process depends on what stage your order reached when it failed:
-
-    - If the order failed before any funds were committed, there is nothing to refund.
-    - If funds are in escrow (managed by P2P.me smart contracts on Base), the release must be triggered through the protocol — this takes time.
-    - If a conversion was executed through NEAR Intents, the path is more complex and handled case-by-case.
-
-    When requesting a refund, always provide your order ID, a **wallet address you control** (not an exchange deposit address), and all relevant transaction references.
-  </Accordion>
-
-  <Accordion title="My Pix QR expired before I paid — what now?">
-    If the countdown timer in the app ran out before you completed your Pix payment, the order has **expired and is void**.
-
-    The good news: **no funds were moved**. Because you had not yet paid, there is nothing to recover or refund. You can simply go back and place a new order. Make sure to complete the Pix payment within the time window shown in the app on your next attempt.
-  </Accordion>
-
-  <Accordion title="I sent crypto but didn't get BRL — what do I do?">
-    For sell orders, this situation requires investigation. Follow these steps:
-
-    1. **Confirm the transaction is fully settled on-chain.** Check the relevant block explorer using your transaction hash to ensure the transaction has the required number of confirmations. Pending transactions cannot be processed yet.
-    2. **Allow the full estimated processing time** shown in the app — Pix releases can take a few minutes after on-chain confirmation.
-    3. If BRL still has not arrived after the full estimated time, **contact support** with:
-       - Your **order ID**
-       - Your **on-chain transaction hash**
-
-    The support team will investigate the escrow and Pix release status with P2P.me on your behalf.
+    No. Because 0xramp is non-custodial, there is no central fund pool for instant refunds. Resolution depends on what stage your order reached. Contact [support on Telegram](https://t.me/zeroxramp) with your order ID.
   </Accordion>
 </AccordionGroup>
 
-## General
+## Privacy
 
 <AccordionGroup>
-  <Accordion title="Is 0xramp a bank?">
-    No. 0xramp is a **non-custodial protocol interface** — it is not a bank, a payment institution, or a financial intermediary. It does not hold deposits, offer interest, issue credit, or provide any banking services.
-
-    0xramp provides a user interface for interacting with the P2P.me protocol (which handles Pix rails and escrow) and NEAR Intents (which handles asset conversion). Funds flow through on-chain smart contracts, not through 0xramp.
-  </Accordion>
-
-  <Accordion title="Is 0xramp the same as P2P.me?">
-    No — they are separate but complementary layers:
-
-    - **P2P.me** is the infrastructure layer. It provides identity verification (ZK-KYC), Pix payment matching, USDC escrow on Base, and fraud prevention. Think of it as the rails.
-    - **0xramp** is the product built on top of those rails. It provides the user experience, quote display, order tracking, and session management. 0xramp does not hold funds or manage identity.
-
-    When you use 0xramp, you are interacting with P2P.me infrastructure under the hood.
-  </Accordion>
-
-  <Accordion title="What countries and currencies are supported?">
-   Stable: BRL (Pix), INR (UPI), IDR (GoPay / QRIS), ARS (Alias), VEN (Pago Móvil).
-   Alpha (mainnet, start small): COP, NGN, ECU, BOB, CUP, PEN, PHP.
-
-    Additional corridors and currencies may be added as the protocol expands. Check the app or the 0xramp website at [https://www.0xramp.app](https://www.0xramp.app) for the latest availability.
-  </Accordion>
-
   <Accordion title="Are my transactions private?">
-    Partially — it depends on which layer you are asking about:
+    Partially. On-chain transactions on Base, NEAR, and Zcash (transparent) are publicly visible. P2P.me ZK-KYC protects your identity data -- only a cryptographic proof is used on-chain, not your personal details. After receiving ZEC, shielding is your wallet's job. See [Privacy](/privacy) for the full picture.
+  </Accordion>
+</AccordionGroup>
 
-    - **On-chain transactions are publicly visible.** Any transaction recorded on Base, Solana, NEAR, or another public blockchain is visible to anyone with access to a block explorer. This includes the wallet addresses, amounts, and assets involved in your order.
-    - **P2P.me ZK-KYC protects your identity data.** The zero-knowledge verification process means your personal identity information is not stored on-chain. Only a cryptographic proof of verification is used — your name, document number, and other personal details are not exposed publicly.
-    - **0xramp session data** (your connected wallet address and order status) is handled by the 0xramp backend as described in the [Security & Trust](/security-trust) documentation.
+## Pay with QR
 
-    If privacy is important to you, review the P2P.me privacy documentation for full details on how identity data is handled.
-
-    In summary: The ramp is not a privacy protocol. Base and NEAR legs are public. ZEC delivery is a transparent t-addr. Amount and timing can be joined across those hops. After ZEC lands, shielding is your wallet. 0xramp does not store your bank login or a plaintext sell key; it does store the destination address you typed, because the session has to send there.
+<AccordionGroup>
+  <Accordion title="What is Pay with QR?">
+    A pilot feature that lets you fund a merchant QR payment using ZEC. You deposit ZEC, it converts to USDC, and a partner provides a fresh merchant QR for you to pay. See [Pay with QR](/pay-with-qr).
   </Accordion>
 </AccordionGroup>

@@ -1,0 +1,165 @@
+---
+title: "SDK API Reference"
+sidebarTitle: "API Reference"
+description: "The five SDK functions, bridge events, host replies, session lifecycle, error codes, and TypeScript types."
+---
+
+## createRampClient
+
+```ts
+const ramp = createRampClient({
+  environment: "production" | "staging",
+  partnerId: string,           // 1-64 chars [A-Za-z0-9_-]
+  sendStore?: ZecSendStore,    // required when supplying onZecSendRequest
+  apiBaseUrl?: string,         // https origin; required for staging
+  paneOrigins?: string[],      // exact https origins
+  requestTimeoutMs?: number,   // default 15000; bounds fetch + body
+  locale?: "pt" | "en" | "es" | "hi" | "id",
+  logger?: Logger,
+  fetch?: typeof globalThis.fetch,
+});
+```
+
+## The five functions
+
+### ramp.createSession(input)
+
+```ts
+interface CreateSessionInput {
+  idempotencyKey?: string;     // 32-128 chars [A-Za-z0-9_-]
+  direction: "sell" | "buy";
+  asset: "ZEC";
+  fiat: string;                // ISO 4217
+  amountAsset?: string;        // display hint
+  zecReceiver?: string;        // BUY: transparent t-addr
+  returnUrl?: string;          // <= 2048 chars
+  partnerSessionId?: string;
+}
+
+// Returns:
+interface RampSession {
+  sessionUrl: string;
+  sessionRef: string;
+  statusTicket: string;
+  expiresAt: string;           // ISO 8601
+}
+```
+
+Routes: `POST /api/partner/v0/sessions` (create), `GET /api/partner/v0/sessions/{sessionRef}` (status).
+
+### ramp.attachPaneBridge(handlers)
+
+```ts
+interface PaneBridgeHandlers {
+  transport: PaneTransport;
+  sessionRef?: string;         // defaults to most recent session
+  onZecSendRequest?: (request: ZecSendRequestPayload, ctx: { signal: AbortSignal }) => Promise<ZecSendOutcome>;
+  onReady?: (ready: unknown) => void;
+  onResult?: (result: unknown) => void;
+  onSendRecoveryRequired?: (info: { reason: string; txids?: string[] }) => void;
+  onClose?: () => void;
+  onProtocolError?: (error: PspError) => void;
+}
+
+interface PaneTransport {
+  post(message: unknown): void;
+  subscribe(handler: (raw: unknown) => void): () => void;
+}
+```
+
+Returns a `PaneBridge` with `.close()`, `.sendZecSendResult(requestId, txid)`, `.sendZecSendCancel(requestId, reason)`, `.getStats()`.
+
+### ramp.getStatus(sessionRef, opts?)
+
+```ts
+interface SessionStatus {
+  outcome: "created" | "opened" | "user-active"
+         | "settled" | "failed" | "expired" | "cancelled";
+  terminal: boolean;
+  zecTxids?: string[];
+  fiat?: { currency: string; amountDisplay: string };
+  updatedAt: string;
+}
+```
+
+Pass `{ statusTicket }` explicitly if running more than 16 concurrent sessions or after a fresh client process.
+
+### ramp.restoreSession(saved)
+
+Revalidates the full session and origin, restores the status ticket without a POST.
+
+### ramp.parseReturnUrl(url)
+
+```ts
+interface ParsedReturnUrl {
+  sessionRef: string | null;
+  outcome: "settled" | "failed" | "expired" | "cancelled" | null;
+  claimsTerminal: boolean;
+  params: URLSearchParams;
+}
+```
+
+Missing fields return `null`; only unparseable input throws `InvalidReturnUrl`.
+
+### ramp.isAllowedPaneUrl(url)
+
+Returns `boolean`. Checks against configured pane origins.
+
+## Bridge events (pane to host)
+
+Envelope: `{ v: 1, type, sessionRef, payload }`
+
+| Event | When | Your obligation |
+|-------|------|-----------------|
+| `psp/ready` | Pane loaded | Record; no action |
+| `psp/zec-send-request` | SELL deposit route reserved | Claim, confirm, sign, broadcast; return result/cancel/pending |
+| `psp/result` | Flow terminal | Display; treat as advisory; refresh status |
+| `psp/close` | User finished | Bridge is already closed; tear down UI |
+
+## Host to pane replies
+
+| Message | Payload | Notes |
+|---------|---------|-------|
+| `psp/zec-send-result` | `{ requestId, txid, txids? }` | Identified deposit transaction |
+| `psp/zec-send-cancel` | `{ requestId, reason }` | Confirmed no broadcast |
+| `psp/zec-send-pending` | `{ requestId, reason, txids? }` | Unresolved; reasons: `in-progress`, `broadcast-unknown`, `multiple-transactions`, `storage-unavailable` |
+
+Transaction arrays: 1-32 individual 64-hex IDs. Evidence for reconciliation, not proof of settlement.
+
+## Send request payload
+
+```ts
+interface ZecSendRequestPayload {
+  requestId: string;       // stable across reconnects
+  address: string;         // transparent t-addr
+  amountZat: string;       // integer zatoshi (10^-8 ZEC) as string
+  memo?: string;
+}
+```
+
+## Session lifecycle
+
+`created -> opened -> user-active -> { settled | failed | expired | cancelled }`
+
+`expired` is reversible -- keep the saved session and journal for late-deposit reconciliation.
+
+## Error codes
+
+All SDK errors extend `PspError`. Branch on `error.code`, never on message text.
+
+| Code | Cause | Action |
+|------|-------|--------|
+| `ConfigError` | Bad config, missing ticket, unknown request | Fix config; pass `statusTicket` or restore first |
+| `ApiError` | Non-2xx from API (`.status` has HTTP code) | Surface; do not blindly retry |
+| `PartnerQuotaExceeded` | HTTP 429 | Back off |
+| `NetworkUnavailable` | Timeout or unreachable | Request is unresolved -- reconcile before retry |
+| `SchemaViolation` | Bad payload, journal conflict | Fail closed; reconcile |
+| `OriginLockViolation` | URL outside pane origins | Refuse; never wrap the origin |
+| `SessionMismatch` | Bridge message for another session | Dropped; investigate before resuming |
+| `UnsupportedProtocolVersion` | Unknown envelope `v` | Bridge closed; upgrade SDK/deployment |
+| `InvalidReturnUrl` | Unparseable return link | Ignore; reconcile via status |
+| `InvalidAmount` | Non-canonical money value | Fix input; never use floats |
+
+## Versioning
+
+`0.x` until pilot completes. PSP-v1 frozen at `0.1.0`: additive changes only afterward. Breaking change = new envelope version (`psp/v2`). ESM, strictly typed, React-free. Targets React Native, Electron, browsers.
