@@ -32,7 +32,7 @@ interface CreateSessionInput {
   fiat: string;                // ISO 4217
   amountAsset?: string;        // display hint
   zecReceiver?: string;        // BUY: transparent t-addr
-  returnUrl?: string;          // <= 2048 chars
+  returnUrl?: string;          // <= 2048 chars; letter-first scheme (RFC 3986) or https
   partnerSessionId?: string;
 }
 
@@ -46,6 +46,8 @@ interface RampSession {
 ```
 
 Routes: `POST /api/partner/v0/sessions` (create), `GET /api/partner/v0/sessions/{sessionRef}` (status).
+
+**Return URL scheme.** `returnUrl` must carry a letter-first scheme per RFC 3986 (`mywallet://ramp`, `zingo:ramp?…`, or `https:`). Digit-first schemes and values without a scheme prefix throw `ConfigError` before any POST; schemes without `//` are accepted; an absent `returnUrl` stays a no-op. Enforced client-side -- the wire schema and golden fixtures are unchanged.
 
 ### ramp.attachPaneBridge(handlers)
 
@@ -105,6 +107,46 @@ Missing fields return `null`; only unparseable input throws `InvalidReturnUrl`.
 
 Returns `boolean`. Checks against configured pane origins.
 
+## Draft handoff codec (browser-hosted mode)
+
+<Note>
+  **DRAFT -- unfrozen; first-partner integration in progress.** The encoding may change and pane-side conformance is NOT claimed. Draft vectors live outside the frozen PSP-v1 conformance set. Do not build production flows on this encoding before it freezes.
+</Note>
+
+Deep-link handoff for the [browser-hosted pane mode](/developers/sdk-integration-guide#mobile-browser-hosted-pane). Exported from the root package and `@0xramp/sdk/session`.
+
+### parseZecSendHandoffUrl(url, expected?)
+
+Parses a pane-to-wallet handoff link carrying the payment request: dedicated query params on your registered scheme (`sessionRef`, `requestId`, transparent `address`, canonical integer `amountZat`, optional `memo`). Pass `{ sessionRef }` as `expected` to reject links for another session.
+
+```ts
+type ParsedZecSendHandoff = ZecSendRequestPayload & { sessionRef: string };
+```
+
+Fails closed:
+
+| Condition | Error |
+|---|---|
+| Session mismatch (`expected.sessionRef` given) | `SessionMismatch` |
+| Missing or malformed parameters | `SchemaViolation` |
+| Non-canonical amounts | `InvalidAmount` |
+| Unparseable input or URL length out of bounds | `InvalidReturnUrl` |
+
+The result is shape-compatible with `ZecSendRequestPayload`, so existing `ZecSendStore` claim/journal semantics apply unchanged (exactly-once, replay-safe). The parse is a payment **request** for your wallet's native confirmation sheet -- the SDK never signs.
+
+### buildZecSendResumeUrl(baseUrl, evidence)
+
+Builds the wallet-to-pane resume URL: an existing pane or return URL plus advisory txid evidence as `txid` and/or comma-joined `txids` query params (1-32 individual 64-hex IDs; when both are given, `txids` must include `txid`).
+
+```ts
+interface ZecSendResumeEvidence {
+  txid?: string;     // identified deposit transaction
+  txids?: string[];  // 1-32 related transaction IDs
+}
+```
+
+Fails closed: unparseable base or output beyond the 2048-character deep-link bound throws `InvalidReturnUrl`; missing evidence throws `ConfigError`; schema-violating values throw `SchemaViolation`. The result is evidence for the pane to reconcile -- never an authoritative receipt; the ticketed status endpoint stays authoritative.
+
 ## Bridge events (pane to host)
 
 Envelope: `{ v: 1, type, sessionRef, payload }`
@@ -149,7 +191,7 @@ All SDK errors extend `PspError`. Branch on `error.code`, never on message text.
 
 | Code | Cause | Action |
 |------|-------|--------|
-| `ConfigError` | Bad config, missing ticket, unknown request | Fix config; pass `statusTicket` or restore first |
+| `ConfigError` | Bad config, invalid returnUrl scheme, missing ticket, unknown request | Fix config; pass `statusTicket` or restore first |
 | `ApiError` | Non-2xx from API (`.status` has HTTP code) | Surface; do not blindly retry |
 | `PartnerQuotaExceeded` | HTTP 429 | Back off |
 | `NetworkUnavailable` | Timeout or unreachable | Request is unresolved -- reconcile before retry |

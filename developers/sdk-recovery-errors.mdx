@@ -58,6 +58,10 @@ const parsed = ramp.parseReturnUrl(url);
 
 The parsed outcome never proves payment -- any app on the device can open the scheme. Reconcile via `getStatus` and your chain view. Register and route your own scheme; do not assume any wallet already supports one.
 
+## WebView passkey or bank failures
+
+If passkey creation/assertion or a bank-origin flow fails inside a WebView, fall back to the [browser-hosted pane mode](/developers/sdk-integration-guide#mobile-browser-hosted-pane): open the pane in the system browser via an OS auth-session instead. This is a supported hosting mode, not just a recovery rung -- Android WebView has no WebAuthn support, and iOS WKWebView needs a `webcredentials` association file for 0xramp.app that 0xramp does not serve. Real-device verification is still required; the SDK alone does not implement or prove device behavior.
+
 ## Error handling
 
 Branch on `error.code`, never on message text. See the full error table in [API Reference](/developers/sdk-api-reference).

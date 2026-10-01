@@ -4,6 +4,17 @@ sidebarTitle: "Changelog"
 description: "Release history for @0xramp/sdk."
 ---
 
+## Unreleased
+
+### Added
+
+- Browser-hosted pane mode for mobile hosts: the pane opens in the system browser (an OS auth-session, e.g. `openAuthSessionAsync`) -- a supported hosting mode required for passkey-first products, which WebViews cannot serve (no WebAuthn on Android WebView; iOS WKWebView would need a `webcredentials` association file 0xramp does not serve). No bridge in this mode; the flow is create, open, return deep link, authoritative status. Stage-1 SELL works with zero bridge. See the [Integration Guide](/developers/sdk-integration-guide#mobile-browser-hosted-pane).
+- Draft zec-send deep-link handoff codec for that mode -- **unfrozen; first-partner integration in progress; encoding may change; pane-side conformance not claimed**: `parseZecSendHandoffUrl` (pane-to-wallet payment request, fail-closed; output is `ZecSendRequestPayload`-compatible so existing `sendStore` claim/journal semantics apply unchanged) and `buildZecSendResumeUrl` (wallet-to-pane resume URL with advisory txid evidence, 1-32 individual 64-hex IDs). Exported from the root package and `@0xramp/sdk/session`. See the [API Reference](/developers/sdk-api-reference#draft-handoff-codec-browser-hosted-mode).
+
+### Changed
+
+- `createSession` rejects a `returnUrl` whose scheme is not letter-first per RFC 3986 with `ConfigError` before any POST -- digit-first schemes and values without a scheme prefix fail closed; `https:` URLs and schemes without `//` are accepted; an absent `returnUrl` stays a no-op. Enforced client-side: the wire schema and golden fixtures are unchanged.
+
 ## v0.0.2 -- Recovery additions
 
 - `createZecSendStore(storage)` -- durable journal over secure get/set storage.
