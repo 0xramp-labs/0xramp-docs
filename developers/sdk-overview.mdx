@@ -4,7 +4,7 @@ sidebarTitle: "Overview"
 description: "Embed 0xramp ZEC and local-fiat ramps in your wallet app. Your wallet signs only ZEC sends; everything else runs inside 0xramp.app."
 ---
 
-`@0xramp/sdk` is a TypeScript SDK for wallet apps that want to offer 0xramp ZEC and local-fiat ramps (Pix, UPI, QRIS, Alias, Pago Movil) by hosting **0xramp.app** in an embedded WebView.
+`@0xramp/sdk` is a TypeScript SDK for wallet apps that want to offer 0xramp ZEC and local-fiat ramps (Pix, UPI, QRIS, Alias, Pago Movil) by hosting **0xramp.app** -- in an embedded WebView on desktop, or in the system browser on mobile.
 
 Your wallet signs **only** ZEC sends from its own wallet core. Everything else -- identity (passkeys), the Base account, P2P.me orders, quotes, limits, fraud screening, fiat payout -- runs inside 0xramp.app, unchanged.
 
@@ -27,6 +27,13 @@ Your wallet app                 0xramp.app (pane, in WebView)        0xramp host
 - **SELL (ZEC to fiat):** the pane reserves a NEAR Intents deposit route and asks your app to send the exact ZEC amount to a transparent deposit address. Your wallet signs that send -- the only signature you ever make.
 - **BUY (fiat to ZEC):** the user pays a merchant on the fiat rail from their bank app; ZEC lands on the transparent address you provided.
 - Bridge results are advisory; authoritative state is the ticketed status endpoint plus your own view of the Zcash chain.
+
+## Hosting modes
+
+- **WebView (desktop default).** Your app embeds the pane and attaches the bridge (`psp/*` messages). The [Integration Guide](/developers/sdk-integration-guide) recipe covers this end to end.
+- **Browser-hosted (mobile).** The pane opens in the system browser via an OS auth-session (for example `openAuthSessionAsync`). There is no bridge channel: the pane drives the flow on-page, and your app resumes via its registered return deep link (return-link navigation is planned pane-side work, not yet live in the deployed pane -- see the [Integration Guide](/developers/sdk-integration-guide#mobile-browser-hosted-pane)). The ticketed status endpoint stays authoritative.
+
+Mobile hosts that lead with passkeys need the browser-hosted mode: the pane's identity lives inside 0xramp.app as a WebAuthn credential, and only a real browser engine can create and assert it. Android WebView has no WebAuthn support, and iOS WKWebView would need a `webcredentials` association file for 0xramp.app that 0xramp does not serve. Web sessions also do not cross WebView and browser contexts, so pick one surface per session.
 
 ## What the SDK never does
 

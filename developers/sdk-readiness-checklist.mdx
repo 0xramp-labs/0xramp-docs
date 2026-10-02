@@ -39,6 +39,7 @@ Required before enabling a live wallet adapter:
 - [ ] Wallet-scoped journal/session storage survives process death; cross-process claims are atomic; backup/reinstall/unavailable-storage/large-record cases tested.
 - [ ] Adapter preserves all returned txids and identifies the deposit by outputs; unknown results never auto-resend.
 - [ ] Real iOS and Android devices pass initial-load/redirect/popup origin locks, passkeys, foreground/background, registered return links, and agreed bank/browser handoff. Native fetch refuses API redirects.
+- [ ] Browser-hosted mode on real devices: the registered return scheme routes on iOS and Android device builds, passkey create/assert works inside the auth-session browser (including returning-user login), and the iOS website-data-sharing consent prompt is accounted for. Unproven until verified on hardware -- simulations cannot prove these.
 - [ ] A controlled real session proves both Zcash deposit and authoritative fiat settlement, including failure, expiry/late deposit, and interrupted return.
 - [ ] Protocol/fixture CODEOWNERS approved the wire surface before merge.
 
@@ -55,6 +56,6 @@ Required before enabling a live wallet adapter:
 
 ## What the SDK alone cannot verify
 
-No code change in this SDK alone can verify a partner's wallet signing adapter, hosted passkeys, provider authorization, or a bank payout. The RN example deliberately returns "wallet adapter not configured" in live mode. Fake transaction IDs are confined to the local sandbox. The Electron example is local sandbox only.
+No code change in this SDK alone can verify a partner's wallet signing adapter, hosted passkeys, provider authorization, or a bank payout. Browser-hosted device behaviors -- scheme registration on device builds, passkey create/assert inside the auth-session browser, the iOS consent prompt -- stay unproven until verified on real devices. The RN example deliberately returns "wallet adapter not configured" in live mode. Fake transaction IDs are confined to the local sandbox. The Electron example is local sandbox only.
 
 Never remove a pending journal entry or an expired session to bypass recovery.
