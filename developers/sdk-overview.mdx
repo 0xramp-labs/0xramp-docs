@@ -31,7 +31,7 @@ Your wallet app                 0xramp.app (pane, in WebView)        0xramp host
 ## Hosting modes
 
 - **WebView (desktop default).** Your app embeds the pane and attaches the bridge (`psp/*` messages). The [Integration Guide](/developers/sdk-integration-guide) recipe covers this end to end.
-- **Browser-hosted (mobile).** The pane opens in the system browser via an OS auth-session (for example `openAuthSessionAsync`). There is no bridge channel: the pane drives the flow on-page, and your app resumes via its registered return deep link. The ticketed status endpoint stays authoritative.
+- **Browser-hosted (mobile).** The pane opens in the system browser via an OS auth-session (for example `openAuthSessionAsync`). There is no bridge channel: the pane drives the flow on-page, and your app resumes via its registered return deep link (return-link navigation is planned pane-side work, not yet live in the deployed pane -- see the [Integration Guide](/developers/sdk-integration-guide#mobile-browser-hosted-pane)). The ticketed status endpoint stays authoritative.
 
 Mobile hosts that lead with passkeys need the browser-hosted mode: the pane's identity lives inside 0xramp.app as a WebAuthn credential, and only a real browser engine can create and assert it. Android WebView has no WebAuthn support, and iOS WKWebView would need a `webcredentials` association file for 0xramp.app that 0xramp does not serve. Web sessions also do not cross WebView and browser contexts, so pick one surface per session.
 
