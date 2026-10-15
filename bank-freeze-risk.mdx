@@ -1,0 +1,119 @@
+---
+title: "Bank Freeze Risk"
+sidebarTitle: "Bank Freeze Risk"
+description: "Why a bank can freeze your account after you buy or sell through 0xramp, who decides, and what to do if it happens to you."
+---
+
+When you buy or sell through 0xramp, your bank account sends money to, or receives money from, an independent merchant you do not know. Some banks treat that as unusual activity and may freeze the account while they review it. This page explains how that happens, who controls each step of your order, and what to do if your account is frozen.
+
+<Warning>
+  A freeze can cover your whole bank account, including funds that never touched crypto. Keep that in mind when you choose which account to use and how much to trade.
+</Warning>
+
+{/* SCREENSHOT: Sell screen, 'YOU RECEIVE' panel, showing the hint 'A P2P merchant sends the {rail} to this key as soon as your deposit confirms. Banks in some countries may freeze accounts over unusual activity.' */}
+
+## In short
+
+- Yes, a bank can freeze your account after you use 0xramp.
+- The decision belongs to your bank, under its own rules. 0xramp is not part of that decision and cannot reverse it.
+- 0xramp never holds your funds or moves money. Independent merchants on the P2P.me network send or receive the local currency that settles your order.
+- The same risk exists in any path between crypto and local currency, custodial exchanges included.
+
+## Which orders it applies to
+
+The risk applies to orders where a bank transfer happens:
+
+- **Buy:** your bank sends a payment to a P2P merchant.
+- **Sell:** a P2P merchant sends a payment to your bank or payment app.
+- **Pay with QR (pilot):** you pay a merchant QR from your bank app.
+
+[Swap](/swap) has no fiat leg. No bank transfer is involved, so this risk does not apply.
+
+## Why banks freeze accounts
+
+Banks review transfers under their own rules and the regulations of their country. Some banks and countries apply strict controls and may flag peer-to-peer transfers as unusual. Common reasons include:
+
+- **Unknown counterparty.** The transfer goes to or comes from a person you have not dealt with before.
+- **Crypto connection.** The bank links the counterparty or the transfer to crypto activity.
+- **Flagged counterparty.** The other side of the transfer was already flagged by their own bank.
+- **Compliance checks.** The transfer triggers the bank's anti-money-laundering (AML) review.
+
+How strict this is varies by bank and by country. 0xramp cannot predict whether your bank will act.
+
+## What a freeze can affect
+
+A freeze applies to your bank account, not only to the transfer linked to your order. While it lasts, you may not be able to use the balance, including salary, savings, or other funds that never touched crypto. Your bank decides how long the review takes and what it asks from you.
+
+## Who holds what at each step
+
+0xramp holds nothing at any step. The value of your order moves between your bank, a P2P merchant, P2P.me escrow, and NEAR Intents.
+
+### Buy
+
+| Step | Where the value is | Bank transfer? |
+|------|--------------------|----------------|
+| You pay via your local rail | Moves from your bank to a P2P merchant | Yes -- your bank sends it |
+| P2P.me matches your payment | USDC locked in P2P.me escrow on Base | No |
+| NEAR Intents converts and delivers | Your asset, at the address you provided | No |
+
+### Sell
+
+| Step | Where the value is | Bank transfer? |
+|------|--------------------|----------------|
+| You send crypto to the deposit address | NEAR Intents swaps it to USDC on Base | No |
+| USDC is escrowed | P2P.me escrow on Base | No |
+| A P2P merchant pays you | Moves from the merchant to your bank or payment app | Yes -- your bank receives it |
+
+If the merchant leg of a sell fails, the USDC stays in your P2P.me account on Base. See [Selling](/selling).
+
+## Who does what
+
+| Party | Role in your order |
+|-------|--------------------|
+| **Your bank** | Sends or receives the local-currency transfer. Decides, under its own rules, whether to freeze your account. |
+| **P2P merchant** | Independent merchant on the P2P.me network. Sends or receives local currency to fulfill your order. Its own bank applies its own rules to its account. |
+| **P2P.me** | Identity, limits, merchant matching, and USDC escrow on Base. |
+| **NEAR Intents** | Converts USDC to or from your chosen asset. |
+| **0xramp** | Interface, quotes, and order tracking. Never holds your funds or moves money. |
+
+## Before you trade
+
+- **Know your bank's rules.** Check its terms for peer-to-peer and crypto-related transfers.
+- **Choose the account with care.** Consider an account that does not hold funds you depend on day to day.
+- **Start small.** Try a small order first with any new rail or account.
+- **Keep your records.** Save the [receipt](/activity#receipts) of every order and the payment receipt from your bank app.
+
+## If your account is frozen
+
+<Steps>
+  <Step title="Keep your records">
+    Save your **order ID** and receipt from [Activity](/activity), the payment receipt from your bank app, and the on-chain transaction hash if you sold crypto.
+  </Step>
+  <Step title="Talk to your bank">
+    Ask what the review needs from you. Your 0xramp receipt shows the amounts, fees, exchange rate, timestamps, and on-chain references of the order.
+  </Step>
+  <Step title="Contact support">
+    Contact [support on Telegram](https://t.me/zeroxramp) with your order details. 0xramp cannot lift a freeze on your bank account.
+  </Step>
+</Steps>
+
+If your order also did not complete, see [Failed Trades](/failed-trades).
+
+## Transparent ZEC delivery
+
+This is separate from bank risk. ZEC is delivered to a transparent address (t-addr) only. The address and amount are public on the Zcash chain. See [Privacy](/privacy).
+
+## What 0xramp is doing about it
+
+**Live today**
+
+- The **Sell** screen states this risk before you confirm.
+- The in-app **Help** FAQ answers "Can a bank freeze my account after using 0xramp?"
+- This page.
+
+**Planned (not live yet)**
+
+- Risk notes before you confirm on the **Buy** and **Swap** screens.
+- Failure messages that name the party responsible: settlement protocol, merchant bank, swap provider, or 0xramp session.
+- A corridor status page showing each corridor as live, degraded, or paused.
+- A count of freeze-related support cases in each monthly report on the [Zcash Community Forum](https://forum.zcashcommunity.com).

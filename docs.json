@@ -65,6 +65,7 @@
           {
             "group": "Safety & Support",
             "pages": [
+              "bank-freeze-risk",
               "failed-trades",
               "privacy",
               "faq",

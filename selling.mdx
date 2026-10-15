@@ -28,6 +28,10 @@ If the merchant leg fails, the USDC stays in your P2P.me account on Base. You ca
   </Step>
   <Step title="Enter your fiat key">
     Enter the payment key or bank account where you want to receive fiat (Pix key, UPI ID, Alias, etc.). Double-check it -- 0xramp cannot redirect a payment once sent.
+
+    <Warning>
+      A P2P merchant sends the fiat to this key. Banks in some countries may freeze accounts over unusual activity. See [Bank Freeze Risk](/bank-freeze-risk).
+    </Warning>
   </Step>
   <Step title="Review the quote">
     Review the fiat amount you'll receive, the fee breakdown, and the exchange rate. Confirm to place the order on-chain.
