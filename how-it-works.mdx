@@ -16,7 +16,7 @@ Every 0xramp transaction moves through three layers: **P2P.me** orchestrates the
     A payment code appears (Pix QR, UPI ID, Alias, etc.). Pay the exact amount from your bank app. The payment goes to a P2P.me merchant. 0xramp never handles your payment credentials.
   </Step>
   <Step title="Receive your crypto">
-    P2P.me matches your payment and locks USDC in escrow on Base. NEAR Intents converts that USDC into your asset and delivers it to your wallet. Typically takes around 6 minutes.
+    P2P.me matches your payment and locks USDC in escrow on Base. NEAR Intents converts that USDC into your asset and delivers it to your wallet. This typically takes around 6 minutes.
   </Step>
 </Steps>
 
@@ -29,7 +29,7 @@ Every 0xramp transaction moves through three layers: **P2P.me** orchestrates the
     Select the asset and amount to sell, then enter your fiat payment key (Pix key, UPI ID, Alias, etc.).
   </Step>
   <Step title="Send your crypto">
-    The app shows a deposit address and exact amount. Send from your wallet. This is a two-leg process: your asset is first swapped to USDC on Base via NEAR Intents, then a P2P.me merchant pays you in fiat.
+    The app shows a deposit address and exact amount. Send from your wallet. NEAR Intents first swaps your asset to USDC on Base, then a P2P merchant pays you in local currency.
   </Step>
   <Step title="Receive fiat">
     Once your deposit is confirmed on-chain, the merchant releases the fiat payment to your key. Funds appear in your bank or payment app shortly after.
@@ -40,7 +40,7 @@ Every 0xramp transaction moves through three layers: **P2P.me** orchestrates the
 
 ## Pay with QR (pilot)
 
-Fund a merchant QR payment using ZEC. You deposit ZEC, it converts to USDC, and a PAY order is created. The partner provides a fresh merchant QR for you to pay. See [Pay with QR](/pay-with-qr) for details.
+Pay a local QR bill with ZEC. You send ZEC, it converts to USDC, and a partner merchant pays the bill's QR in local currency from their own account. Your bank is not involved. See [Pay with QR](/pay-with-qr) for details.
 
 <Note>
   All orders are placed on-chain by your wallet or P2P.me smart account. 0xramp has no custody of your funds at any point.
