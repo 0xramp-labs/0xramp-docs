@@ -21,13 +21,14 @@ When you buy or sell through 0xramp, your bank account sends money to, or receiv
 
 ## Which orders it applies to
 
-The risk applies to orders where a bank transfer happens:
+The risk applies to orders where **your** bank account sends or receives local currency:
 
 - **Buy:** your bank sends a payment to a P2P merchant.
 - **Sell:** a P2P merchant sends a payment to your bank or payment app.
-- **Pay with QR (pilot):** you pay a merchant QR from your bank app.
 
-[Swap](/swap) has no fiat leg. No bank transfer is involved, so this risk does not apply.
+**Pay with QR (pilot)** works differently. You send ZEC, and a partner merchant pays the bill's QR in local currency from their own account. Your bank is not involved, so the freeze risk sits with the merchant, not with you.
+
+[Swap](/swap) has no fiat leg, so this risk does not apply.
 
 ## Why banks freeze accounts
 
@@ -107,13 +108,18 @@ This is separate from bank risk. ZEC is delivered to a transparent address (t-ad
 
 **Live today**
 
-- The **Sell** screen states this risk before you confirm.
-- The in-app **Help** FAQ answers "Can a bank freeze my account after using 0xramp?"
-- This page.
+Before you confirm an order, the app tells you who handles your money and what can go wrong:
+
+- **Buy:** the pay panel explains that your payment goes to an independent P2P merchant and warns about this risk.
+- **Sell:** the receive panel warns about this risk and links to this page.
+- **Pay with QR (pilot):** the entry card explains that a partner merchant settles the bill, before you send ZEC.
+- **Swap:** for swaps routed through NEAR Intents, the form explains that NEAR Intents converts your asset, that 0xramp never holds your funds, and that a failed conversion returns to your refund address.
+- **ZEC:** the destination field explains that the transparent address and amount are public on the Zcash chain, and links to [Privacy](/privacy). The refund note says the same about transparent refunds.
+
+You can also find this risk in the in-app **Help** FAQ ("Can a bank freeze my account after using 0xramp?") and on this page.
 
 **Planned (not live yet)**
 
-- Risk notes before you confirm on the **Buy** and **Swap** screens.
 - Failure messages that name the party responsible: settlement protocol, merchant bank, swap provider, or 0xramp session.
 - A corridor status page showing each corridor as live, degraded, or paused.
 - A count of freeze-related support cases in each monthly report on the [Zcash Community Forum](https://forum.zcashcommunity.com).

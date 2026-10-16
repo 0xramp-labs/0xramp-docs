@@ -1,14 +1,14 @@
 ---
 title: "Pay with QR"
 sidebarTitle: "Pay with QR"
-description: "Fund a merchant QR payment using ZEC. Pilot feature -- start with small amounts."
+description: "Pay a local QR bill with ZEC. A partner merchant settles it in local currency. Pilot feature -- start with small amounts."
 ---
 
 <Warning>
   Pay with QR is a **pilot feature**. Start with small amounts and expect occasional friction. Report issues via [Telegram](https://t.me/zeroxramp).
 </Warning>
 
-Pay with QR lets you fund a merchant payment (Pix, UPI, etc.) using ZEC. You deposit ZEC, it converts to USDC on Base, and a PAY order is created. The partner provides a fresh merchant QR for you to scan and pay.
+Pay with QR lets you pay a local QR bill (Pix, UPI, etc.) with ZEC. You send ZEC, it converts to USDC on Base, and a partner merchant pays the bill's QR in local currency from their own account. Your bank is never involved.
 
 {/* SCREENSHOT: The Pay with QR page showing the 3-step progress (Amount to pay -> Pay -> Merchant QR), payment country selector set to Brazil, amount R$27, estimated ZEC send amount, and the refund address field with 'Fill from NOIR' button. */}
 
@@ -24,8 +24,8 @@ Pay with QR lets you fund a merchant payment (Pix, UPI, etc.) using ZEC. You dep
   <Step title="Send ZEC">
     Send the exact ZEC amount shown to the deposit address. This funds the PAY order.
   </Step>
-  <Step title="Get the merchant QR">
-    Once your ZEC is confirmed and converted, the partner provides a fresh merchant QR code. Scan it from your bank app to complete the payment.
+  <Step title="Track the payment">
+    Once your ZEC is confirmed and converted, a partner merchant pays the QR in local currency from their own account. Your bank is not part of this payment. If the order is refunded, the ZEC goes to your transparent refund address, and the refund is public on the Zcash chain. See [Privacy](/privacy).
   </Step>
 </Steps>
 
