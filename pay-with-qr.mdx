@@ -5,7 +5,7 @@ description: "Pay a local QR bill with ZEC. A partner merchant settles it in loc
 ---
 
 <Warning>
-  Pay with QR is a **pilot feature**. Start with small amounts and expect occasional friction. Report issues via [Telegram](https://t.me/zeroxramp).
+  Pay with QR is a **pilot feature**. Pilot describes rollout maturity; it does not mean the service is degraded or has a recorded incident. Check [corridor status](/corridor-status) for operational availability. Start with small amounts and report issues via [Telegram](https://t.me/zeroxramp).
 </Warning>
 
 Pay with QR lets you pay a local QR bill (Pix, UPI, etc.) with ZEC. You send ZEC, it converts to USDC on Base, and a partner merchant pays the bill's QR in local currency from their own account. Your bank is never involved.
@@ -35,7 +35,7 @@ Pay with QR lets you pay a local QR bill (Pix, UPI, etc.) with ZEC. You send ZEC
 </Steps>
 
 <Note>
-  Brazil PAY accepts static Pix only; dynamic Pix QR codes are blocked. A country or QR format appearing in the catalog does not prove bank interoperability or a completed payment. In Nigeria, NQR/SPD format recognition exists, while bank, device, expiry, recovery and end-to-end settlement checks remain pending. Read the [current scope](/corridor-status) before funding.
+  Brazil PAY accepts static Pix only; dynamic Pix QR codes are blocked. Nigeria PAY supports NQR and SPD formats, subject to an available partner, a valid quote and your account's requirements. Supported formats do not certify every bank or device, or confirm receipt of a particular payment. Read the [current scope](/corridor-status) before funding.
 </Note>
 
 For details on how the underlying protocol works, see the [Zcash forum post](https://forum.zcashcommunity.com/t/introducing-0xramp-non-custodial-zec-local-fiat-pix-and-more-for-emerging-markets/57215).
