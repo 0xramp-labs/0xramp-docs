@@ -76,7 +76,8 @@
           {
             "group": "Public data",
             "pages": [
-              "metrics-methodology"
+              "metrics-methodology",
+              "corridor-status"
             ]
           }
         ]
