@@ -28,3 +28,70 @@ Corridors group settled activity by local currency. Historical activity in a cor
 0xramp links its completed operations to the public P2P.me escrow records on Base. The on-chain amount and completion time are the settlement source. Application records provide the product and asset context that the chain cannot establish by itself.
 
 The public page presents aggregate activity and limited settlement summaries. It does not publish order capabilities or user-to-wallet mappings. Reproducing the complete attribution requires controlled access to the underlying application evidence.
+
+## Public sources and counting rules
+
+The settlement source is the [P2P.me Base subgraph](https://api.goldsky.com/api/public/project_cmq7kbyqt81p501xi7h0wdeuh/subgraphs/p2pme-subgraph/prod/gn). The provider's public [deployment manifest](https://github.com/p2pdotme/subgraph/blob/3f929d3ecd7b6483e641475be5b587cefa83f20a/subgraph.yaml) identifies the Base contracts and event handlers; its [schema](https://github.com/p2pdotme/subgraph/blob/3f929d3ecd7b6483e641475be5b587cefa83f20a/schema.graphql) defines the indexed fields. The SDK publishes the [status and type constants](https://github.com/p2pdotme/p2pdotme-sdk/blob/f88a937d0d37fe50531471cdb3e97bc484ab38eb/src/constants/orders.constant.ts) and [order-query fields](https://github.com/p2pdotme/p2pdotme-sdk/blob/f88a937d0d37fe50531471cdb3e97bc484ab38eb/src/orders/subgraph/queries.ts).
+
+The aggregation follows these rules:
+
+1. Match completed 0xramp operations to their escrow orders. Deduplicate each escrow order before counting it.
+2. Include only protocol `status: 3` with a valid `completedAt`. Protocol types are `0` BUY, `1` SELL and `2` PAY; they are separate from the application product labels described above.
+3. Convert `actualUsdcAmount` from integer micro-units by dividing by `1,000,000`. Do not substitute `usdcAmount`, which is the quote, or add conversion legs.
+4. Group settlements by `completedAt` in UTC and by the decoded `currency`. Preserve zero-activity days. The all-zero legacy currency represents BRL; malformed currency remains unknown.
+5. Sum corridors, products and asset-attribution buckets, then check them against the overall and cumulative totals. Attested ZEC sales and donation payouts are subsets, not extra activity to add again.
+
+The JSON records the indexed block at `meta.snapshot.subgraphBlock`, capture time at `meta.snapshot.takenAt`, and reporting boundaries at `meta.window`. New chain lookups within a refresh use the recorded block; previously confirmed completed orders can be reused. An indexer can prune old blocks, so a later query may not reproduce an older capture.
+
+## Check one public response
+
+Use Node.js 20 or later and `curl`. These commands download only the existing public metrics response and a dependency-free [verification script](https://github.com/0xramp-labs/0xramp-docs/blob/main/metrics/verify-live.mjs). No login, wallet or private order data is required.
+
+```bash
+curl --fail --silent --show-error \
+  https://0xramp.app/api/public/data/metrics \
+  --output metrics.json
+curl --fail --silent --show-error \
+  https://raw.githubusercontent.com/0xramp-labs/0xramp-docs/main/metrics/verify-live.mjs \
+  --output verify-live.mjs
+node verify-live.mjs metrics.json
+```
+
+Keep that single response when comparing figures: later downloads can include new settlements. The script checks corridor, daily, product and asset totals, each cumulative daily step, subset bounds and account aggregates when present. It also checks protocol-type totals when the response includes them. It exits with an error when those checks disagree.
+
+The output identifies the capture time, subgraph block and freshness flags. `stale: true` means the response is retained during a source outage; `live: false` means it is not marked as a live refresh. A successful arithmetic check does not certify freshness or the accuracy of the underlying attribution. Account counts describe accounts, not verified unique people, and their scope is all time.
+
+## Inspect the chain source
+
+This read-only query checks the indexer's current block without requesting orders or addresses:
+
+```bash
+curl --fail --silent --show-error \
+  https://api.goldsky.com/api/public/project_cmq7kbyqt81p501xi7h0wdeuh/subgraphs/p2pme-subgraph/prod/gn \
+  --header 'content-type: application/json' \
+  --data '{"query":"{ _meta { block { number timestamp } } }"}'
+```
+
+To inspect the settlement fields, the following GraphQL query takes that block number as the integer variable `block`. It requests one protocol-wide completed order without requesting its identifier or addresses:
+
+```graphql
+query CompletedSettlementSample($block: Int!) {
+  orders_collection(
+    block: { number: $block }
+    first: 1
+    where: { status: 3 }
+    orderBy: completedAt
+    orderDirection: desc
+  ) {
+    type
+    status
+    actualUsdcAmount
+    currency
+    completedAt
+  }
+}
+```
+
+This sample establishes the source fields and completed-status filter. It is not a sample identified as a 0xramp order. Summing every completed order in the provider's index would include other applications and would not reproduce 0xramp's total.
+
+The public script verifies the published aggregate arithmetic. The public index supplies escrow evidence. Neither proves which application originated an order, an earlier ZEC conversion, an operator attestation, or receipt in a bank account. Those attribution and delivery claims require their corresponding evidence; the public metrics do not expose the private mappings.
