@@ -1,0 +1,35 @@
+---
+title: "Corridor status"
+description: "Read the operational scope of BUY, SELL and PAY, including pilot restrictions and status freshness."
+---
+
+This page records the scope and limitations of BUY, SELL and PAY. A dedicated status view is being prepared for the app's **More** menu, with a reason and last review time for each product and corridor. The corridor and local rail names follow the provider catalog; the status also considers the product rollout and documented restrictions.
+
+## Read the status
+
+- **Live:** offered under the stable rollout policy, with no operator restriction recorded in that review. This is not a real-time guarantee of a merchant, bank or quote.
+- **Degraded:** limited alpha/pilot coverage, incomplete operational validation or a recorded service problem. Read the reason for the particular product.
+- **Paused:** the product is not offered, disabled by policy or suspended by the operator. Existing operations still need status tracking and support.
+- **Unknown:** the review is missing, expired or unreachable. A last reported state is not current health evidence.
+
+The app's available-merchant count is separate. Zero merchants can be a temporary liquidity condition. A working parser, a catalog entry or a quote is not proof that a bank received a payment.
+
+## Nigeria
+
+BUY and SELL use the **NIP transfer** rail under the alpha rollout. Availability still depends on a partner, a valid quote and the account's current limits.
+
+PAY recognises **NQR and SPD** formats. Recorded parser checks do not establish commercial support: bank interoperability, device coverage, expiry, recovery and end-to-end settlement checks remain pending. Treat this as limited pilot scope, not general NQR/SPD availability.
+
+## Brazil and QR PAY
+
+Brazil PAY accepts **static Pix QR only**. Confirm that the merchant can provide one **before sending ZEC**. Dynamic Pix is blocked; its rejection after scanning cannot undo an earlier ZEC conversion.
+
+PAY in the other listed corridors also remains a controlled pilot. A recognised QR may rely on an external order or contain an opaque amount. Confirm the merchant and exact bill amount; never infer that a QR is unpaid, unexpired or supported by every bank just because it can be read. See [Pay with QR](/pay-with-qr) for the order of steps and recovery limits.
+
+## Evidence and updates
+
+The initial review checks the offered products, format-validation behaviour and the recorded pilot limitations. It does not claim that new real payments were executed for every country, bank or device. [Published settlement aggregates](/metrics-methodology) cover historical activity and do not establish universal present-day coverage.
+
+**0xramp maintainers** own status updates. They review the page at least weekly and after reported incidents. Each review expires within seven days. A new timestamp must follow an actual review, not merely a page refresh.
+
+For an incident, maintainers identify the affected product and corridor, publish its reason and scope, and pause new operations when necessary while preserving tracking and support for existing payments. Restoration follows a correction and validation of the affected scenario. The public page and its update time are then checked again. Report a problem through [support](/contact).
