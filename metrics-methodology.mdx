@@ -1,79 +1,30 @@
 ---
 title: "Metrics methodology"
-description: "How 0xramp counts settled activity, attributes ZEC use, and reconciles its historical grant baseline."
+description: "How 0xramp counts the completed activity shown in live metrics."
 ---
 
-0xramp reports completed escrow activity using the amount and completion time recorded on Base. A completed escrow order is not independent proof that a recipient's bank account received a payment.
+The [live metrics page](https://0xramp.app/data) shows completed 0xramp activity. Its totals grow as new operations settle.
 
-## The M1 baseline
+## What counts as a settlement
 
-The [grant](https://github.com/ZcashCommunityGrants/zcashcommunitygrants/issues/454) fixes the historical period at **1 August through 27 September 2026, UTC**. Its exact boundaries are `2026-08-01T00:00:00Z` inclusive and `2026-09-28T00:00:00Z` exclusive. This baseline stays separate from the growing [live metrics](https://0xramp.app/data).
+An escrow order counts once when it is linked to a completed 0xramp operation and the P2P.me protocol records it as completed on Base. Pending, cancelled, expired, failed, refunded and chain-unconfirmed operations are excluded from settled totals.
 
-| Result | Orders | Settled USDC |
-| --- | ---: | ---: |
-| All attributed activity | 357 | 25,526.819076 |
-| ZEC BUY | 29 | 2,263.879881 |
-| ZEC SELL | 46 | 4,042.544659 |
-| ZEC PAY | 7 | 77.496955 |
-| ZEC total | 82 | 6,383.921495 |
-| Asset attribution unresolved | 28 | 652.266197 |
-
-The ZEC SELL figure includes **5 operator-attested sales totaling 2,485.246471 USDC**. In those sales, ZEC was converted before a direct USDC sale. That association is an operator attestation, not something the escrow itself proves.
-
-Internal and external use are not fully classified in the historical records. Treat these as activity totals, not a count of independent customers or external adoption. The unresolved 28 orders stay outside the ZEC share.
-
-## Reproduce the published aggregates
-
-Download the [aggregate snapshot](https://raw.githubusercontent.com/0xramp-labs/0xramp-docs/main/metrics/m1-baseline.json) and [verification script](https://raw.githubusercontent.com/0xramp-labs/0xramp-docs/main/metrics/reproduce.mjs) into the same folder. With Node.js 20 or later, run:
-
-```bash
-node reproduce.mjs
-```
-
-The script recomputes daily, corridor, application-product, protocol-type and asset-attribution totals. It checks the fixed window and the last cumulative point. No credentials or spreadsheet are needed. The JSON records its capture time and the Base subgraph block used for the audit.
-
-For traceable examples, inspect `zecAttribution.pay`: its 7 orders and 77.496955 USDC feed the ZEC PAY row above. Compare `protocolProducts.pay`: its 9 orders also include the 2 donations in `products.donationSubsetOfSell`. Finally, the `timeline` entry for `2026-09-07` has zero settlements and leaves its cumulative total unchanged. The script checks each cumulative step as well as the final totals.
+Volume uses the actual settled USDC amount, not the quoted amount. Conversion legs are not added again: a swap followed by a sale contributes one escrow settlement. Daily totals use the escrow completion time in UTC, rather than the time an order was placed. Days without a settlement remain zero.
 
 <Note>
-  These public files let you verify the arithmetic. The public chain alone cannot identify which orders originated through 0xramp or which asset the user converted before or after the escrow leg. Those associations use retained application records. A complete independent source audit needs controlled access to that evidence. Order capabilities and user-to-wallet mappings are not published.
+  A completed escrow order is not independent proof that a recipient's bank account received a payment. Activity totals also do not establish how many independent customers used the service.
 </Note>
 
-## Settlement source and counting
+## Products, assets and corridors
 
-The on-chain source is the public [P2P.me subgraph on Base](https://api.goldsky.com/api/public/project_cmq7kbyqt81p501xi7h0wdeuh/subgraphs/p2pme-subgraph/prod/gn). Each audit reads `_meta.block`, then pins every batch to that same block.
+BUY, SELL and PAY describe the flow used in 0xramp. This classification can differ from the underlying escrow type. Donation payouts are included in SELL and must not be added again to the overall total.
 
-An escrow order counts once when its protocol status is `3` (completed), it is linked to a completed 0xramp operation, and `completedAt` is inside the reporting window. `placedAt` is not the settlement date. Pending, cancelled, expired, failed, refunded and chain-unconfirmed operations are excluded from settled totals.
+Asset attribution comes from the asset recorded in the 0xramp operation. A USDC escrow settlement alone does not identify the asset converted before or after that settlement. Unknown attribution must remain unknown. Native ZEC and cbZEC are distinct assets.
 
-The amount is `actualUsdcAmount / 1,000,000`. Quoted amounts and conversion legs are not added to this amount. Repeated appearances of the same escrow order are deduplicated. A swap followed by a sale contributes one escrow settlement, not two transactions.
+Corridors group settled activity by local currency. Historical activity in a corridor does not guarantee that a provider, bank or merchant can currently process another operation. See [corridor status](/corridor-status) for availability definitions.
 
-The currency is decoded from the protocol's bytes32 currency field. The legacy all-zero currency field represents BRL. Invalid currency data must remain unknown rather than being guessed.
+## Sources and limits
 
-To examine the public source, a reviewer can first retrieve a block:
+0xramp links its completed operations to the public P2P.me escrow records on Base. The on-chain amount and completion time are the settlement source. Application records provide the product and asset context that the chain cannot establish by itself.
 
-```graphql
-{
-  _meta { block { number timestamp } }
-}
-```
-
-The settlement fields used are `orderId`, `type`, `status`, `actualUsdcAmount`, `currency`, `placedAt` and `completedAt`. A source audit queries `orders_collection` at the recorded block with `status: 3`, then matches the authorized attribution evidence. The indexer retains a limited block history, so the dated aggregate snapshot is retained too. An unavailable old indexer block must not be described as independently re-verified.
-
-## Protocol type and application product
-
-| Protocol type | Meaning | M1 count |
-| --- | --- | ---: |
-| `0` | BUY escrow | 165 |
-| `1` | SELL escrow | 183 |
-| `2` | PAY escrow | 9 |
-
-The application product is classified separately. In this window, 7 type-2 orders belong to ZEC PAY and 2 belong to the donation flow. Donations remain a subset of application SELL. The application counts are therefore **165 BUY, 185 SELL and 7 PAY**. Adding the donation subset again would double-count it.
-
-An operation is attributed to ZEC when its recorded user-facing asset is ZEC, or when a direct USDC sale has a separate attestation connecting it to an earlier ZEC conversion. Recovery that leaves funds in USDC does not itself prove an eventual ZEC refund or completed ZEC journey. `cbZEC` is reported separately from native ZEC.
-
-## Reconciliation with the grant CSV
-
-The [original CSV](https://github.com/user-attachments/files/32800705/0xramp_volume_diario_producao_2026-09-28.csv) reports 357 orders and **25,533.834866 USDC**. The current source audit finds the same order count and **25,526.819076 USDC actually settled**, a difference of **−7.015790 USDC**.
-
-The original export used quoted amounts and application completion dates. The on-chain method uses actual settled amounts and the escrow completion clock. The current quoted sum is 25,533.834869 USDC, leaving a **0.000003 USDC residual** against the old CSV; that residual remains explicit rather than being forced to zero. One order falls on 11 August under the on-chain clock and 12 August in the original daily export. The period total stays at 357 orders.
-
-There were no completed settlements on 7 or 13 September. The snapshot includes those days as zero. It also retains the full corridor breakdown, ZEC coverage and exclusions so later live activity cannot silently change this baseline.
+The public page presents aggregate activity and limited settlement summaries. It does not publish order capabilities or user-to-wallet mappings. Reproducing the complete attribution requires controlled access to the underlying application evidence.
