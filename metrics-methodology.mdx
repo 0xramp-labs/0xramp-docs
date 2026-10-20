@@ -19,7 +19,7 @@ Volume uses the actual settled USDC amount, not the quoted amount. Conversion le
 
 BUY, SELL and PAY describe the flow used in 0xramp. This classification can differ from the underlying escrow type. Donation payouts are included in SELL and must not be added again to the overall total.
 
-Asset attribution comes from the asset recorded in the 0xramp operation. A USDC escrow settlement alone does not identify the asset converted before or after that settlement. Unknown attribution must remain unknown. Native ZEC and cbZEC are distinct assets.
+Asset attribution comes from the asset recorded in the 0xramp operation. A direct USDC sale can also be attributed to ZEC when a separately identified operator attestation links it to an earlier ZEC conversion. The public chain alone does not establish that earlier conversion or identify the asset converted after settlement. Unknown attribution must remain unknown. Native ZEC and cbZEC are distinct assets.
 
 Corridors group settled activity by local currency. Historical activity in a corridor does not guarantee that a provider, bank or merchant can currently process another operation. See [corridor status](/corridor-status) for availability definitions.
 
