@@ -72,6 +72,12 @@
               "donation",
               "contact"
             ]
+          },
+          {
+            "group": "Public data",
+            "pages": [
+              "metrics-methodology"
+            ]
           }
         ]
       },
