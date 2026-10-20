@@ -1,34 +1,36 @@
 ---
 title: "Corridor status"
-description: "Read the operational scope of BUY, SELL and PAY, including pilot restrictions and status freshness."
+description: "Read the availability of BUY, SELL and PAY, supported formats and status freshness."
 ---
 
 This page records the scope and limitations of BUY, SELL and PAY. A dedicated status view is being prepared for the app's **More** menu, with a reason and last review time for each product and corridor. The corridor and local rail names follow the provider catalog; the status also considers the product rollout and documented restrictions.
 
 ## Read the status
 
-- **Live:** offered under the stable rollout policy, with no operator restriction recorded in that review. This is not a real-time guarantee of a merchant, bank or quote.
-- **Degraded:** limited alpha/pilot coverage, incomplete operational validation or a recorded service problem. Read the reason for the particular product.
+- **Live:** the product is enabled for the corridor, with no operational incident recorded in the current review. Availability still depends on a merchant, a valid quote and your account's requirements.
+- **Degraded:** an operational problem is recorded for the product and corridor. Read the reason and affected scope.
 - **Paused:** the product is not offered, disabled by policy or suspended by the operator. Existing operations still need status tracking and support.
 - **Unknown:** the review is missing, expired or unreachable. A last reported state is not current health evidence.
 
-The app's available-merchant count is separate. Zero merchants can be a temporary liquidity condition. A working parser, a catalog entry or a quote is not proof that a bank received a payment.
+**Alpha** and **pilot** describe rollout maturity. A product can be live during an alpha or pilot rollout; those labels alone do not indicate a service incident. Supported formats and their limitations are listed separately from operational status.
+
+The app's available-merchant count is separate. Zero merchants can be a temporary liquidity condition. A supported format or a quote does not confirm that a bank received a payment.
 
 ## Nigeria
 
 BUY and SELL use the **NIP transfer** rail under the alpha rollout. Availability still depends on a partner, a valid quote and the account's current limits.
 
-PAY recognises **NQR and SPD** formats. Recorded parser checks do not establish commercial support: bank interoperability, device coverage, expiry, recovery and end-to-end settlement checks remain pending. Treat this as limited pilot scope, not general NQR/SPD availability.
+PAY supports **NQR and SPD** payment formats. Availability follows the same partner, quote and account checks. Confirm the recipient and exact bill amount in the app before approving payment.
 
 ## Brazil and QR PAY
 
 Brazil PAY accepts **static Pix QR only**. Confirm that the merchant can provide one **before sending ZEC**. Dynamic Pix is blocked; its rejection after scanning cannot undo an earlier ZEC conversion.
 
-PAY in the other listed corridors also remains a controlled pilot. A recognised QR may rely on an external order or contain an opaque amount. Confirm the merchant and exact bill amount; never infer that a QR is unpaid, unexpired or supported by every bank just because it can be read. See [Pay with QR](/pay-with-qr) for the order of steps and recovery limits.
+Each PAY corridor has supported formats and specific limitations. A recognised QR may rely on an external order or contain an opaque amount. Confirm the merchant and exact bill amount; never infer that a QR is unpaid, unexpired or supported by every bank just because it can be read. See [Pay with QR](/pay-with-qr) for the order of steps and recovery limits.
 
 ## Evidence and updates
 
-The initial review checks the offered products, format-validation behaviour and the recorded pilot limitations. It does not claim that new real payments were executed for every country, bank or device. [Live activity methodology](/metrics-methodology) explains how historical settlements are counted; those totals do not establish universal present-day coverage.
+A status review records enabled products, supported formats and current incidents. It does not certify every bank or device. [Live activity methodology](/metrics-methodology) explains how historical settlements are counted; those totals do not establish universal present-day coverage.
 
 **0xramp maintainers** own status updates. They review the page at least weekly and after reported incidents. Each review expires within seven days. A new timestamp must follow an actual review, not merely a page refresh.
 
