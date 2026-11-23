@@ -8,8 +8,8 @@ This guide walks the SELL ZEC to fiat happy path end to end. Read [Overview](/de
 
 ## Prerequisites
 
-- Node >= 20; pure ESM, strictly typed TypeScript.
-- SDK v0.0.2 (`@0xramp/sdk`). Install from repo (see [Quickstart](/developers/sdk-quickstart)).
+- Node >= 22.23.4 (a patched October 2026 line; hosts on 24.x should run >= 24.22.1); pure ESM, strictly typed TypeScript.
+- SDK v0.0.3 (`@0xramp/sdk`). Install from repo (see [Quickstart](/developers/sdk-quickstart)).
 - Issued by 0xramp: `partnerId`, enabled corridor, API origin, pane origins.
 - Your app provides: ZEC wallet core (signs transparent-address sends), secure storage scoped to one unlocked wallet, a WebView with navigation control (desktop) or your platform's auth-session opener (`openAuthSessionAsync`, mobile browser-hosted mode), and a return-link scheme you register and route yourself.
 - Attribution: render **"Powered by 0xramp . P2P.me"** at the ramp entry point.

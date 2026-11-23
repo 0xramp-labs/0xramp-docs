@@ -29,9 +29,13 @@ The Swap panel lets you exchange assets across chains using **NEAR Intents** dir
 
 Past swaps appear below the form with status badges:
 
-- **Delivered** -- swap completed successfully.
-- **Refunded** -- swap failed and funds were returned.
-- **Closed** -- swap expired or was cancelled.
+- **Waiting** -- the deposit has not been detected yet.
+- **Converting** -- the deposit is detected and the route is converting.
+- **Delivered** -- the swap completed and the output reached your address.
+- **Refunded** -- the swap failed and the funds were returned to your refund address on the origin network.
+- **Failed** -- the swap failed without a refund record yet; contact support with your order ID.
+- **Incomplete** -- a partial deposit; send the missing amount to the same address.
+- **Expired** -- the reservation expired; nothing was moved.
 
 Each entry links to a block explorer for verification.
 
@@ -39,4 +43,4 @@ Each entry links to a block explorer for verification.
   Swaps use NEAR Intents directly from your browser. The 0xramp server proxies quotes and status but does not custody funds.
 </Note>
 
-*Checked against 0xramp v1.9.5 on 23 Nov 2026.*
+*Checked against 0xramp v1.9.5 on 23 Nov 2026 (re-verified for M2 wave 2).*

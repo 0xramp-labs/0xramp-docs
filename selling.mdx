@@ -1,7 +1,7 @@
 ---
 title: "Sell Crypto for Local Fiat"
 sidebarTitle: "Selling"
-description: "Send crypto from your wallet and receive local fiat (Pix, UPI, QRIS, Alias, Pago Movil) to your bank or payment app."
+description: "Send crypto from your wallet and receive local fiat (Pix, UPI, QRIS, Alias, Pago Móvil) to your bank or payment app."
 ---
 
 Sell ZEC, NEAR, SOL, ETH, USDC, and other assets. Send crypto to a deposit address and receive local fiat to your bank or payment app.
@@ -16,6 +16,8 @@ Selling is a two-leg process:
 2. A P2P.me merchant pays you in local fiat from the escrowed USDC.
 
 If the merchant leg fails, the USDC stays in your P2P.me account on Base. You can withdraw it or use it for another trade.
+
+While the sale runs, the app shows a timeline of automatic steps. A sale funded with another asset names the legs on the timeline: waiting for your deposit, then converting, with the route's own time estimate while it converts. A route that fails is drawn as a stopped step, and the asset returns to your refund address on its origin network.
 
 ## Steps
 
@@ -34,7 +36,7 @@ If the merchant leg fails, the USDC stays in your P2P.me account on Base. You ca
     </Warning>
   </Step>
   <Step title="Review the quote">
-    Review the fiat amount you'll receive, the fee breakdown, and the exchange rate. Confirm to place the order on-chain.
+    Review the fiat amount you'll receive, the fee breakdown, and the exchange rate. The payout is labeled as an **estimate** (≈) in the form; the final amount is set by the USDC the conversion actually delivers. Confirm to place the order on-chain.
   </Step>
   <Step title="Send crypto to the deposit address">
     The app shows a deposit address and exact amount. Send that precise amount from your wallet.
@@ -50,4 +52,4 @@ If the merchant leg fails, the USDC stays in your P2P.me account on Base. You ca
 
 If something goes wrong, see [Failed Trades](/failed-trades).
 
-*Checked against 0xramp v1.9.5 on 23 Nov 2026.*
+*Checked against 0xramp v1.9.5 on 23 Nov 2026 (re-verified for M2 wave 2).*
