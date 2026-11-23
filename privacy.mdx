@@ -32,6 +32,7 @@ Amount and timing can be joined across these three hops by anyone watching all l
 - Sell payout key is encrypted to the merchant, not stored in the clear.
 - Buy destination is chosen by you; P2P.me's on-chain recipient is the NEAR deposit, not your ZEC address.
 - After you receive ZEC, shielding is your wallet's job (`z_shieldcoinbase` or t-to-z send).
+- ZEC refunds -- a failed conversion or a cancelled Pay with QR -- go to the transparent refund address you provided.
 
 ## What does not survive
 
