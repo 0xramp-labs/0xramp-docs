@@ -20,12 +20,15 @@ Use the tabs at the top to filter:
 
 ## Order statuses
 
-| Status | Meaning |
-|--------|---------|
-| Transaction completed | Order settled successfully |
-| Delivered | Swap output received |
-| Refunded | Swap failed, funds returned |
-| Closed | Order expired or was cancelled |
+Status text depends on the order type:
+
+| Type | Finished | Stopped |
+|------|----------|---------|
+| Buy, Sell | Transaction completed | Transaction cancelled, Attempt expired, Transaction refunded, Transaction failed |
+| Swap | Delivered | Closed |
+| Pay with QR (pilot) | Payment confirmed | Payment cancelled, Payment expired, Payment needs attention |
+
+A buy or sell in progress shows its current stage, for example Transaction in progress, Purchase route reserved or Waiting for asset deposit. An open swap shows Waiting. The swap panel history uses the full badge set listed in [Swap](/swap). A sell receipt labels what you sold **Sold** and your payout **Received**.
 
 ## Receipts
 
