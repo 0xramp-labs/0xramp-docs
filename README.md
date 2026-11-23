@@ -31,20 +31,23 @@ Live app: [https://www.0xramp.app](https://www.0xramp.app)
 
 Navigation and site config live in [`docs.json`](./docs.json).
 
-## Local development
+## Local preview and verification
 
-Requires Node.js 20+.
-
-```bash
-npm i -g mint
-mint dev
-```
-
-Open the URL the CLI prints (usually http://localhost:3000).
+Use the mise-pinned Node (per [`AGENTS.md`](./AGENTS.md)):
 
 ```bash
-mint broken-links   # optional link check
+mise exec node@24.18.1 -- mint dev            # local preview
+mise exec node@24.18.1 -- mint broken-links    # link check
 ```
+
+If that Node version is not installed, mint also runs through npx on Node 24 (the fallback used for the M2 review waves):
+
+```bash
+npx mint@4.3.84 broken-links
+npx mint@4.3.4 dev --port 4444
+```
+
+`broken-links` must print no broken links, and `dev` must serve the changed pages, before a change merges.
 
 ## Publishing
 
