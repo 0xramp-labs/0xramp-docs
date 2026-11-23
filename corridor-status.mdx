@@ -16,11 +16,28 @@ This page records the scope and limitations of BUY, SELL and PAY. The app's **Mo
 
 The app's available-merchant count is separate. Zero merchants can be a temporary liquidity condition. A supported format or a quote does not confirm that a bank received a payment.
 
-## Nigeria
+## Corridor rails and PAY formats
 
-BUY and SELL use the **NIP transfer** rail under the alpha rollout. Availability still depends on a partner, a valid quote and the account's current limits.
+BUY and SELL use each corridor's local rail from the provider catalog; Nigeria BUY and SELL, for example, use the **NIP transfer** rail under the alpha rollout. Availability always depends on a partner, a valid quote and the account's current limits.
 
-PAY supports **NQR and SPD** payment formats. Availability follows the same partner, quote and account checks. Confirm the recipient and exact bill amount in the app before approving payment.
+PAY runs as a controlled pilot in 12 corridors. Each corridor accepts its own local QR formats:
+
+| Corridor | PAY formats |
+|---|---|
+| Brazil (BRL) | Static Pix QR only |
+| India (INR) | UPI payment QR |
+| Indonesia (IDR) | QRIS MPM |
+| Argentina (ARS) | Mercado Pago QR |
+| Venezuela (VEN) | Pago Móvil QR |
+| Bolivia (BOB) | QR Simple |
+| Nigeria (NGN) | NQR and SPD |
+| Colombia (COP) | Payment QR |
+| Cuba (CUP) | Transfermóvil QR |
+| Ecuador (ECU) | DeUna payment URL |
+| Peru (PEN) | Yape and Plin QR |
+| Philippines (PHP) | QR Ph |
+
+Some formats carry an opaque amount, for example Pago Móvil envelopes and encrypted bank envelopes. Confirm the recipient and the exact bill amount with the merchant before confirming. Kenya does not offer PAY. Supported formats do not certify every bank or device.
 
 ## Brazil and QR PAY
 
