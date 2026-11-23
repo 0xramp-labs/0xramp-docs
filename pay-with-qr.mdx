@@ -30,6 +30,7 @@ Pay with QR lets you pay a local QR bill (Pix, UPI, etc.) with ZEC. You send ZEC
   </Step>
   <Step title="Track the payment and any recovery">
     A partner merchant pays in local currency from their own account. Keep the payment open until its status is reconciled and confirm receipt with the merchant. A completed escrow record alone is not independent bank-receipt evidence.
+    Closing the payment window does not cancel the payment; resume it in **Pay** or **Activity**. An unfunded reservation can be cancelled, which closes it: do not send ZEC to its deposit address afterwards. A reservation that is not funded in time expires the same way. If ZEC was already on its way when you cancelled, the payment resumes on its own and shows in **Activity**.
     Recovery depends on the stage. A failed conversion may return ZEC to your refund address. After conversion, recovered funds can remain as USDC on Base; cancelling PAY does not automatically convert them back to ZEC. Follow the payment status and check the available account balance before trying again. See [Privacy](/privacy).
   </Step>
 </Steps>
@@ -39,3 +40,5 @@ Pay with QR lets you pay a local QR bill (Pix, UPI, etc.) with ZEC. You send ZEC
 </Note>
 
 For details on how the underlying protocol works, see the [Zcash forum post](https://forum.zcashcommunity.com/t/introducing-0xramp-non-custodial-zec-local-fiat-pix-and-more-for-emerging-markets/57215).
+
+*Checked against 0xramp v1.9.5 on 23 Nov 2026.*
