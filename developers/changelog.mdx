@@ -10,10 +10,18 @@ description: "Release history for @0xramp/sdk."
 
 - Browser-hosted pane mode for mobile hosts: the pane opens in the system browser (an OS auth-session, e.g. `openAuthSessionAsync`) -- a supported hosting mode required for passkey-first products, which WebViews cannot serve (no WebAuthn on Android WebView; iOS WKWebView would need a `webcredentials` association file 0xramp does not serve). No bridge in this mode; the flow is create, open, return deep link, authoritative status. Stage-1 SELL is designed to work with zero bridge -- **planned pane-side work, not yet live in the deployed pane** (no QR/copy outside a native WebView; no return-link navigation yet). See the [Integration Guide](/developers/sdk-integration-guide#mobile-browser-hosted-pane).
 - Draft zec-send deep-link handoff codec for that mode -- **unfrozen; first-partner integration in progress; encoding may change; pane-side conformance not claimed**: `parseZecSendHandoffUrl` (pane-to-wallet payment request; the expected session is required -- a link from any other session throws `SessionMismatch`; fail-closed on duplicated query parameters, malformed parameters, and non-canonical amounts; a trailing `#fragment` is ignored; output is `ZecSendRequestPayload`-compatible so existing `sendStore` claim/journal semantics apply unchanged) and `buildZecSendResumeUrl` (wallet-to-pane resume URL with advisory txid evidence, 1-32 individual 64-hex IDs; the 2048-character deep-link bound binds first -- roughly 28-30 txids fit on realistic pane URLs, larger sets reconcile via the status endpoint). Exported from the root package and `@0xramp/sdk/session`. See the [API Reference](/developers/sdk-api-reference#draft-handoff-codec-browser-hosted-mode).
+- Web host example (`examples/web-host/`): a zero-install browser reference for the bridge-less popup hosting mode (create -> open popup -> advisory return link -> ticketed status), mirroring the React Native host controller and covered by the opt-in partner test suite. Sandbox mode is fully synthetic; live mode requires issued partner configuration and never falls back to fake success.
 
 ### Changed
 
 - `createSession` rejects a `returnUrl` whose scheme is not letter-first per RFC 3986 with `ConfigError` before any POST -- digit-first schemes and values without a scheme prefix fail closed; `https:` URLs and schemes without `//` are accepted; an absent `returnUrl` stays a no-op. Register the exact string: the server's return-link allowlist compares the full value exactly -- a query string or fragment makes session create fail with 403. Enforced client-side: the wire schema and golden fixtures are unchanged.
+
+## v0.0.3 -- 2026-10-22 (security floor)
+
+- Node.js runtime floor raised to a patched line: `engines.node` is now `>=22.23.4` (was `>=20`; Node 20 is end-of-life since 2026-04-30). Hosts on 24.x should run `>=24.22.1`. The SDK core has no network client of its own, so the floor matters wherever the SDK runs inside an app that talks to the network.
+- CI runs on patched lines only (Node 22/24); the publish dry-run and release workflow pin `24.22.1`, and `.nvmrc` pins local development to `24.22.1`.
+- Dev-only dependency fixes (not shipped in the package): vitest, vite, and source-map-js advisories resolved; `npm audit` is clean including devDependencies.
+- The Electron example pins `electron` to `45.0.0` (Electron 33 bundles an EOL Node 20.x runtime).
 
 ## v0.0.2 -- Recovery additions
 
