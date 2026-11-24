@@ -1,20 +1,20 @@
 ---
 title: "Fees and Quotes"
 sidebarTitle: "Fees & Quotes"
-description: "How 0xramp calculates quotes and what fees apply -- all shown before you confirm."
+description: "How 0xramp calculates quotes and what fees apply. All shown before you confirm."
 ---
 
 0xramp charges **zero product fees**. All fees come from the underlying integrations (P2P.me and NEAR Intents) and are shown in full before you confirm any order.
 
-{/* SCREENSHOT: The flow summary expanded view showing Fixed fee, Asset conversion, Exchange rate spread, and Total flow cost with the percentage over market price. */}
+![App Buy Flow Summary & Fees Screenshot: Simmulating a R$1.000 (1,000 BRL) ZEC purchase with a complete summary of the fees being charged and how much you are expected to receive. Full transparency](/images/screenshots/2026-11-24-app-flow-summary.png)
 
 ## Fee components
 
 Every order includes up to three fee components:
 
-- **Fixed fee** -- a small flat amount per order. Most noticeable on small orders since it doesn't scale with size.
-- **Asset conversion** -- the cost of routing through NEAR Intents to convert USDC to your target asset (or vice versa).
-- **Exchange rate spread** -- the difference between the mid-market rate and the rate used in your trade. This compensates P2P.me merchants for providing liquidity.
+- **Fixed fee**: a small flat amount per order. Most noticeable on small orders since it doesn't scale with size.
+- **Asset conversion**: the cost of routing through NEAR Intents to convert USDC to your target asset (or vice versa).
+- **Exchange rate spread**: the difference between the mid-market rate and the rate used in your trade. This compensates P2P.me merchants for providing liquidity.
 
 Larger orders generally have a lower fee percentage because the fixed fee is spread over a bigger amount.
 
